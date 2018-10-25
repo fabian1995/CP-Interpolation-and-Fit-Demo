@@ -4,21 +4,21 @@
 
 using namespace std;
 
-SplineInterpolation::SplineInterpolation(QVector<double> x, QVector<double> input, double lDeriv, double rDeriv) {
-    this->x = &x;
-    this->input = &input;
+SplineInterpolation::SplineInterpolation(QVector<double>* x, QVector<double>* input, double lDeriv, double rDeriv) {
+    this->x = x;
+    this->input = input;
     this->lDeriv = lDeriv;
     this->rDeriv = rDeriv;
-    this->size = input.size()+1;
+    this->size = input->size()+1;
     
     this->h = new QVector<double>();
     this->h->append(input[0]);
     
     for (int i = 1; i < size-1; i++) {
-        this->h->append(x[i]-x[i-1]);
+        this->h->append(x->at(i)-x->at(i-1));
     }
     
-    this->calculateSplineCoefficients();
+    //this->calculateSplineCoefficients();
 }
 
 void SplineInterpolation::calculateSplineCoefficients() {
@@ -69,14 +69,24 @@ void SplineInterpolation::triSolve(QVector<double> diag, QVector<double> f) {
     }
 }
 
-double SplineInterpolation::splineInterpolate(double xValue) {
-    // Find required interval: Binary search
+int SplineInterpolation::lowerBoundsBinarySearch(double xValue) {
     int lowerIndex = 0;
-    int upperIndex = this->size-1;
+    int upperIndex = this->size-2;
     int midIndex = (upperIndex + lowerIndex) / 2;
     
+    //cout << "[UL " << upperIndex << "   " << this->x->at(upperIndex) << " -> " << this->input->isEmpty() << "] ";
+    
+    // Check if we are looking for boundary values
+    if (xValue <= this->x->at(lowerIndex)) {
+        return lowerIndex;
+    }
+    else if (xValue >= this->x->at(upperIndex)) {
+        // Functions have one index less -> do not take last index
+        
+        return upperIndex-1;
+    }
+    
     // Searches for lower index of the interval that encloses xValue
-    // Result index of this search is lowerIndex
     while (midIndex != lowerIndex) {
         //cout << "Lower: " << lowerIndex << " Mid: " << midIndex << " Upper: " << upperIndex << endl;
         if (xValue > this->x->at(midIndex)) {
@@ -86,20 +96,31 @@ double SplineInterpolation::splineInterpolate(double xValue) {
             upperIndex = midIndex;
         }
         else {
-            lowerIndex = midIndex;
-            break;
+            return midIndex;
         }
         midIndex = (upperIndex + lowerIndex) / 2;
     }
     
+    // Result index of this search is lowerIndex if not found in previous steps
+    return lowerIndex;
+}
+
+double SplineInterpolation::splineInterpolate(double xValue) {
+    // Find required interval: Binary search
+    cout << "Looking for " << xValue;
+    
+    int index = lowerBoundsBinarySearch(xValue);
+    
+    cout << " Index: " << index << " Max: " << input->size() << " Internal: " << this->size << endl;
+    
     // Calculate function value
-    double result = input->at(lowerIndex);
-    double helper = xValue - x->at(lowerIndex);
-    result += helper * coeffC->at(lowerIndex);
-    helper *= xValue - x->at(lowerIndex);
-    result += helper * coeffB->at(lowerIndex);
-    helper *= xValue - x->at(lowerIndex);
-    result += helper * coeffA->at(lowerIndex);
+    double result = input->at(index);
+    //double helper = xValue - x->at(index);
+    /*result += helper * coeffC->at(index);
+    helper *= xValue - x->at(index);
+    result += helper * coeffB->at(index);
+    helper *= xValue - x->at(index);
+    result += helper * coeffA->at(index);*/
     
     return result;
 }

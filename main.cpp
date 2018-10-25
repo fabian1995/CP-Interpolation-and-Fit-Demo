@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
     double T_min = 0;
     double T_max = 10;
     int steps = 11;
-    int moreSteps = 10;
+    int moreSteps = 1;
     
 
     QVector<double> xValues(steps);
@@ -35,17 +35,19 @@ int main(int argc, char *argv[]) {
         xValues[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps-1);
     }
     
-    //SplineInterpolation* spline = new SplineInterpolation(xValues,fNoise,0,0);
-    //cout << spline->splineInterpolate(6);
+    SplineInterpolation* spline = new SplineInterpolation(&xValues,&fNoise,0,0);
+    cout << spline->lowerBoundsBinarySearch(1) << endl;
+    cout << spline->lowerBoundsBinarySearch(2) << endl;
+    cout << spline->lowerBoundsBinarySearch(3) << endl;
     
-    /*QVector<double> xValues2(steps);
-    QVector<double> fSplines(steps);
+    QVector<double> xValues2(steps*moreSteps);
+    QVector<double> fSplines(steps*moreSteps);
     for(int i = 0; i < steps*moreSteps; i++) {
         xValues2[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps*moreSteps-1);
-        //fSplines[i] = spline->splineInterpolate(xValues2[i]);
-    }*/
+        fSplines[i] = spline->splineInterpolate(xValues2[i]);
+    }
     
-    noisePlot->plot(xValues, fNoise, PlotWidget::DOT, QString("Input Data - Noise"));
+    //noisePlot->plot(xValues, fNoise, PlotWidget::DOT, QString("Input Data - Noise"));
     //noisePlot->plot(xValues2, fSplines, PlotWidget::LINE, QString("Spline Interpolation"));
 
     return app.exec();

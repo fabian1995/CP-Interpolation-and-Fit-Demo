@@ -19,9 +19,11 @@
 
 class SplineInterpolation {
 public:
-    SplineInterpolation(QVector<double> x, QVector<double> input, double lDeriv, double rDeriv);
+    SplineInterpolation(QVector<double>* x, QVector<double>* input, double lDeriv, double rDeriv);
     
-    double splineInterpolate(double x);
+    double splineInterpolate(double xValue);
+    
+    int lowerBoundsBinarySearch(double xValue);
     
 private:
     QVector<double>* fss;
