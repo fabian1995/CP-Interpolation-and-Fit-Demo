@@ -1,5 +1,6 @@
 #include <qt5/QtCore/qvector.h>
 #include <cmath>
+#include <iostream>
 
 #include "utils.h"
 
@@ -95,4 +96,11 @@ bool testLBBinarySearch() {
     }
     
     return true;
+}
+
+void printQVector(QVector<double>& vec) {
+    for (int i = 0; i < vec.size(); i++) {
+        std::cout << vec[i] << ", ";
+    }
+    std::cout << std::endl;
 }

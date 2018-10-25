@@ -22,5 +22,7 @@ int lowerBoundsBinarySearch(double xValue, QVector<double>& x);
 
 bool testLBBinarySearch();
 
+void printQVector(QVector<double>& vec);
+
 #endif /* UTILS_H */
 
