@@ -99,6 +99,8 @@ bool testLBBinarySearch() {
 }
 
 void printQVector(QVector<double>& vec) {
+    std::cout << "[size " << vec.size() << "]: ";
+    
     for (int i = 0; i < vec.size(); i++) {
         std::cout << vec[i] << ", ";
     }
