@@ -10,6 +10,7 @@
 
 #include "plotwidget.h"
 #include "spline.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ int main(int argc, char *argv[]) {
     double T_min = 0;
     double T_max = 10;
     int steps = 11;
-    int moreSteps = 1;
+    int moreSteps = 30;
     
 
     QVector<double> xValues(steps);
@@ -35,10 +36,9 @@ int main(int argc, char *argv[]) {
         xValues[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps-1);
     }
     
+    cout << "Checking trisolve: " << testTrisolve() << endl;
+    
     SplineInterpolation* spline = new SplineInterpolation(&xValues,&fNoise,0,0);
-    cout << spline->lowerBoundsBinarySearch(1) << endl;
-    cout << spline->lowerBoundsBinarySearch(2) << endl;
-    cout << spline->lowerBoundsBinarySearch(3) << endl;
     
     QVector<double> xValues2(steps*moreSteps);
     QVector<double> fSplines(steps*moreSteps);
@@ -47,8 +47,8 @@ int main(int argc, char *argv[]) {
         fSplines[i] = spline->splineInterpolate(xValues2[i]);
     }
     
-    //noisePlot->plot(xValues, fNoise, PlotWidget::DOT, QString("Input Data - Noise"));
-    //noisePlot->plot(xValues2, fSplines, PlotWidget::LINE, QString("Spline Interpolation"));
+    noisePlot->plot(xValues, fNoise, PlotWidget::DOT, QString("Input Data - Noise"));
+    noisePlot->plot(xValues2, fSplines, PlotWidget::LINE, QString("Spline Interpolation"));
 
     return app.exec();
 }

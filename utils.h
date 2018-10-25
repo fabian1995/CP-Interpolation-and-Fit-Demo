@@ -14,7 +14,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-void triSolve(QVector<double>& result, QVector<double> a, QVector<double> b, QVector<double> c, QVector<double> f);
+void triSolve(QVector<double>& result, QVector<double>& a, QVector<double>& b, QVector<double>& c, QVector<double>& f);
 
 bool testTrisolve();
 

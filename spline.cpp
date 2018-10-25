@@ -1,4 +1,5 @@
 #include "spline.h"
+#include "utils.h"
 
 #include <iostream>
 
@@ -18,7 +19,7 @@ SplineInterpolation::SplineInterpolation(QVector<double>* x, QVector<double>* in
         this->h->append(x->at(i)-x->at(i-1));
     }
     
-    //this->calculateSplineCoefficients();
+    this->calculateSplineCoefficients();
 }
 
 void SplineInterpolation::calculateSplineCoefficients() {
@@ -35,7 +36,9 @@ void SplineInterpolation::calculateSplineCoefficients() {
         diag[i] = 2 * (h->at(i-1) + h->at(i));
     }
     
-    this->triSolve(diag, f);
+    //this->triSolve(diag, f);
+    this->fss = new QVector<double>(this->size);
+    triSolve(*fss, *h, diag, *h, f);
     
     this->coeffA = new QVector<double>();
     this->coeffB = new QVector<double>();
@@ -45,27 +48,6 @@ void SplineInterpolation::calculateSplineCoefficients() {
         this->coeffA->append((fss->at(i+1)-fss->at(i))/(6*h->at(i)));
         this->coeffB->append(fss->at(i)/2);
         this->coeffC->append((input->at(i+1)-input->at(i))/h->at(i) - h->at(i)/6 * (fss->at(i+1)+2*fss->at(i)));
-    }
-}
-
-void SplineInterpolation::triSolve(QVector<double> diag, QVector<double> f) {
-    QVector<double> beta(size);
-    QVector<double> rho(size);
-    
-    this->fss = new QVector<double>();
-    
-    beta[0] = diag[0];
-    rho[0] = f[0];
-    
-    for(int i = 1; i < size; i++) {
-        beta[i] = diag[i] - h->at(i-1)*h->at(i-1)/beta[i-1];
-        rho[i] = f[i] - h->at(i-1)*rho[i-1]/beta[i-1];
-    }
-    
-    fss->prepend(rho[size-1] / beta[size-1]);
-    
-    for(int i = size-2; i >= 0; i--) {
-        fss->prepend((rho[i] - h->at(i) * fss->first() + 1 ) / beta[i]);
     }
 }
 
@@ -82,7 +64,6 @@ int SplineInterpolation::lowerBoundsBinarySearch(double xValue) {
     }
     else if (xValue >= this->x->at(upperIndex)) {
         // Functions have one index less -> do not take last index
-        
         return upperIndex-1;
     }
     
@@ -107,20 +88,20 @@ int SplineInterpolation::lowerBoundsBinarySearch(double xValue) {
 
 double SplineInterpolation::splineInterpolate(double xValue) {
     // Find required interval: Binary search
-    cout << "Looking for " << xValue;
+    //cout << "Looking for " << xValue;
     
     int index = lowerBoundsBinarySearch(xValue);
     
-    cout << " Index: " << index << " Max: " << input->size() << " Internal: " << this->size << endl;
+    //cout << " Index: " << index << " Max: " << input->size() << " Internal: " << this->size << endl;
     
     // Calculate function value
     double result = input->at(index);
-    //double helper = xValue - x->at(index);
-    /*result += helper * coeffC->at(index);
+    double helper = xValue - x->at(index);
+    result += helper * coeffC->at(index);
     helper *= xValue - x->at(index);
     result += helper * coeffB->at(index);
     helper *= xValue - x->at(index);
-    result += helper * coeffA->at(index);*/
+    result += helper * coeffA->at(index);
     
     return result;
 }

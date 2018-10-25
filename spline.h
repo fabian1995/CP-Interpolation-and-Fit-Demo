@@ -40,7 +40,7 @@ private:
     QVector<double>* h;
     
     void calculateSplineCoefficients();
-    void triSolve(QVector<double> b, QVector<double> f);
+    //void triSolve(QVector<double> b, QVector<double> f);
     
 };
 
