@@ -1,0 +1,13 @@
+.dep.inc
+Makefile
+build/
+dist/
+*.aux
+*.log
+*.out
+*.pdf
+*.gz
+*.qti*
+*.csv
+nbproject/
+.qmake.stash
