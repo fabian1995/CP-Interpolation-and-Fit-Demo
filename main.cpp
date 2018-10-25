@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     cout << "Checking trisolve: " << testTrisolve() << endl;
     cout << "Checking LBBS:     " << testLBBinarySearch() << endl;
     
-    SplineInterpolation* spline = new SplineInterpolation(&xValues,&fNoise,0,0);
+    SplineInterpolation* spline = new SplineInterpolation(&xValues,&fNoise,10,0);
     
     QVector<double> xValues2(steps*moreSteps);
     QVector<double> fSplines(steps*moreSteps);
