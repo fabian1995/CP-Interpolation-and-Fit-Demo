@@ -31,7 +31,6 @@ int main(int argc, char *argv[]) {
     
 
     QVector<double> xValues(steps);
-    QVector<double> fValues(steps);
     for(int i=0; i<steps; i++) {
         xValues[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps-1);
     }
@@ -39,7 +38,7 @@ int main(int argc, char *argv[]) {
     cout << "Checking trisolve: " << testTrisolve() << endl;
     cout << "Checking LBBS:     " << testLBBinarySearch() << endl;
     
-    SplineInterpolation* spline = new SplineInterpolation(&xValues,&fNoise,10,0);
+    SplineInterpolation* spline = new SplineInterpolation(&xValues,&fNoise,0,0);
     
     QVector<double> xValues2(steps*moreSteps);
     QVector<double> fSplines(steps*moreSteps);

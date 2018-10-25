@@ -28,13 +28,13 @@ void SplineInterpolation::calculateSplineCoefficients() {
     QVector<double> f(size);
     QVector<double> diag(size);
     
-    f[0] = (input->at(1) - input->at(0)) / h->at(0) - lDeriv;
-    f[size-1] = rDeriv - (input->at(size-1) - input->at(size-2)) / h->at(size-2);
+    f[0] = 6 * ((input->at(1) - input->at(0)) / h->at(0) - lDeriv);
+    f[size-1] = 6 * (rDeriv - ((input->at(size-1) - input->at(size-2)) / h->at(size-2)));
     diag[0] = 2*h->at(0);
     diag[size-1] = 2*h->at(size-2);
     
     for (int i = 1; i < size-1; i++) {
-        f[i] = (input->at(i+1) - input->at(i)) / h->at(i) - (input->at(i) - input->at(i-1)) / h->at(i-1);
+        f[i] = 6 * ((input->at(i+1) - input->at(i)) / h->at(i) - (input->at(i) - input->at(i-1)) / h->at(i-1));
         diag[i] = 2 * (h->at(i-1) + h->at(i));
     }
     
