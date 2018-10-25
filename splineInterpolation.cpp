@@ -1,4 +1,4 @@
-#include "spline.h"
+#include "splineInterpolation.h"
 #include "utils.h"
 
 #include <iostream>

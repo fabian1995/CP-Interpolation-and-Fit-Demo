@@ -5,7 +5,7 @@
  */
 
 /* 
- * File:   spline.h
+ * File:   splineInterpolation.h
  * Author: fabian
  *
  * Created on 25. Oktober 2018, 12:30

@@ -9,7 +9,7 @@
 #include <iostream>
 
 #include "plotwidget.h"
-#include "spline.h"
+#include "splineInterpolation.h"
 #include "utils.h"
 #include "langrangeInterpolation.h"
 
