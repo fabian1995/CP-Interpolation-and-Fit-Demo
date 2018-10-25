@@ -11,6 +11,7 @@
 #include "plotwidget.h"
 #include "spline.h"
 #include "utils.h"
+#include "langrangeInterpolation.h"
 
 using namespace std;
 
@@ -39,16 +40,23 @@ int main(int argc, char *argv[]) {
     cout << "Checking LBBS:     " << testLBBinarySearch() << endl;
     
     SplineInterpolation* spline = new SplineInterpolation(&xValues,&fNoise,0,0);
+    LagrInterpolate* lagrange = new LagrInterpolate(&xValues, &fNoise);
+    
+    T_min -= 0.25;
+    T_max += 0.25;
     
     QVector<double> xValues2(steps*moreSteps);
     QVector<double> fSplines(steps*moreSteps);
+    QVector<double> fLagrange(steps*moreSteps);
     for(int i = 0; i < steps*moreSteps; i++) {
         xValues2[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps*moreSteps-1);
         fSplines[i] = spline->splineInterpolate(xValues2[i]);
+        fLagrange[i] = lagrange->polynomial(xValues2[i]);
     }
     
     noisePlot->plot(xValues, fNoise, PlotWidget::DOT, QString("Input Data - Noise"));
     noisePlot->plot(xValues2, fSplines, PlotWidget::LINE, QString("Spline Interpolation"));
+    noisePlot->plot(xValues2, fLagrange, PlotWidget::LINE, QString("Lagrange Interpolation"));
 
     return app.exec();
 }
