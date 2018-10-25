@@ -24,7 +24,7 @@ void triSolve(QVector<double>& result, QVector<double>& a, QVector<double>& b, Q
     }
 }
 
-inline bool almostEqual(double n1, double n2, double epsilon) {
+inline bool almostEqual(double n1, double n2, double epsilon = 1e-10) {
     return std::abs(n1-n2) < epsilon;
 }
 
@@ -46,6 +46,51 @@ bool testTrisolve() {
     
     for (int i = 0; i < result.size(); i++) {
         if (!almostEqual(result[i], exactResult[i],1e-10))
+            return false;
+    }
+    
+    return true;
+}
+
+int lowerBoundsBinarySearch(double xValue, QVector<double>& x) {
+    int lowerIndex = 0;
+    int upperIndex = x.size()-2;
+    int midIndex = (upperIndex + lowerIndex) / 2;
+    
+    // Check if we are looking for boundary values
+    if (xValue <= x.at(lowerIndex)) {
+        return lowerIndex;
+    }
+    else if (xValue >= x.at(upperIndex)) {
+        return upperIndex;
+    }
+    
+    // Searches for lower index of the interval that encloses xValue
+    while (midIndex != lowerIndex) {
+        if (xValue > x.at(midIndex)) {
+            lowerIndex = midIndex;
+        }
+        else if (xValue < x.at(midIndex)) {
+            upperIndex = midIndex;
+        }
+        else {
+            return midIndex;
+        }
+        midIndex = (upperIndex + lowerIndex) / 2;
+    }
+    
+    // Result index of this search is lowerIndex if not found in previous steps
+    return lowerIndex;
+}
+
+bool testLBBinarySearch() {
+    QVector<double> xIntervals {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    QVector<double> input    {0, 0.1, 3.2, 4.5, 8.99, 9.19, 9.99, 10};
+    QVector<double> expected {0, 0,   3,   4,   8,    9,    9,     9};
+    
+    for (int i = 0; i < input.size(); i++) {
+        double res = lowerBoundsBinarySearch(input[i], xIntervals);
+        if (!almostEqual(expected[i], res))
             return false;
     }
     

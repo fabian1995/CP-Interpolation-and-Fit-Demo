@@ -18,5 +18,9 @@ void triSolve(QVector<double>& result, QVector<double>& a, QVector<double>& b, Q
 
 bool testTrisolve();
 
+int lowerBoundsBinarySearch(double xValue, QVector<double>& x);
+
+bool testLBBinarySearch();
+
 #endif /* UTILS_H */
 
