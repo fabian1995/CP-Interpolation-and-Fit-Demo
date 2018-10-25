@@ -23,8 +23,6 @@ public:
     
     double splineInterpolate(double xValue);
     
-    int lowerBoundsBinarySearch(double xValue);
-    
 private:
     QVector<double>* fss;
     QVector<double>* input;
@@ -40,7 +38,6 @@ private:
     QVector<double>* h;
     
     void calculateSplineCoefficients();
-    //void triSolve(QVector<double> b, QVector<double> f);
     
 };
 

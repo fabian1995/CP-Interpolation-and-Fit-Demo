@@ -51,48 +51,9 @@ void SplineInterpolation::calculateSplineCoefficients() {
     }
 }
 
-int SplineInterpolation::lowerBoundsBinarySearch(double xValue) {
-    int lowerIndex = 0;
-    int upperIndex = this->size-2;
-    int midIndex = (upperIndex + lowerIndex) / 2;
-    
-    //cout << "[UL " << upperIndex << "   " << this->x->at(upperIndex) << " -> " << this->input->isEmpty() << "] ";
-    
-    // Check if we are looking for boundary values
-    if (xValue <= this->x->at(lowerIndex)) {
-        return lowerIndex;
-    }
-    else if (xValue >= this->x->at(upperIndex)) {
-        // Functions have one index less -> do not take last index
-        return upperIndex-1;
-    }
-    
-    // Searches for lower index of the interval that encloses xValue
-    while (midIndex != lowerIndex) {
-        //cout << "Lower: " << lowerIndex << " Mid: " << midIndex << " Upper: " << upperIndex << endl;
-        if (xValue > this->x->at(midIndex)) {
-            lowerIndex = midIndex;
-        }
-        else if (xValue < this->x->at(midIndex)) {
-            upperIndex = midIndex;
-        }
-        else {
-            return midIndex;
-        }
-        midIndex = (upperIndex + lowerIndex) / 2;
-    }
-    
-    // Result index of this search is lowerIndex if not found in previous steps
-    return lowerIndex;
-}
-
 double SplineInterpolation::splineInterpolate(double xValue) {
     // Find required interval: Binary search
-    //cout << "Looking for " << xValue;
-    
-    int index = lowerBoundsBinarySearch(xValue);
-    
-    //cout << " Index: " << index << " Max: " << input->size() << " Internal: " << this->size << endl;
+    int index = lowerBoundsBinarySearch(xValue, *x);
     
     // Calculate function value
     double result = input->at(index);
