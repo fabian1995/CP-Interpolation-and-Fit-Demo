@@ -5,6 +5,10 @@
 #include "splineInterpolation.h"
 #include "lagrangeInterpolation.h"
 
+double firstDerivative(PlotDataModel::BasisFunction f, double x, double h) {
+    return (f(x+h)-f(x-h)) / (2*h);
+}
+
 InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel* initialData) {
     this->name = name;
     this->plotModels.append(initialData);
@@ -13,10 +17,17 @@ InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel
     const double T_min = initialData->getXData()[0];
     const double T_max = initialData->getXData()[initialData->getXData().size()-1];
     
-    SplineInterpolation splineInt(initialData->getXData(), initialData->getYData(), 0, 0);
-    LagrInterpolate lagrInt(initialData->getXData(), initialData->getYData());
-    
     PlotDataModel::BasisFunction exactFunc = initialData->getBasisFunction();
+    
+    double lDer = 0, rDer = 0;
+    
+    if (exactFunc != nullptr) {
+        lDer = firstDerivative(exactFunc, T_min, (T_max-T_min)/1000);
+        rDer = firstDerivative(exactFunc, T_max, (T_max-T_min)/1000);
+    }
+    
+    SplineInterpolation splineInt(initialData->getXData(), initialData->getYData(), lDer, rDer);
+    LagrInterpolate lagrInt(initialData->getXData(), initialData->getYData());
     
     QVector<double> xValues(steps);
     QVector<double> yValuesSpline(steps);
