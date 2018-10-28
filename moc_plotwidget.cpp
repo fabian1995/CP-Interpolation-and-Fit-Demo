@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_PlotWidget_t {
-    QByteArrayData data[11];
-    char stringdata0[85];
+    QByteArrayData data[13];
+    char stringdata0[105];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,19 +35,21 @@ static const qt_meta_stringdata_PlotWidget_t qt_meta_stringdata_PlotWidget = {
 QT_MOC_LITERAL(0, 0, 10), // "PlotWidget"
 QT_MOC_LITERAL(1, 11, 4), // "plot"
 QT_MOC_LITERAL(2, 16, 0), // ""
-QT_MOC_LITERAL(3, 17, 15), // "QVector<double>"
-QT_MOC_LITERAL(4, 33, 5), // "xData"
-QT_MOC_LITERAL(5, 39, 5), // "yData"
-QT_MOC_LITERAL(6, 45, 9), // "PlotStyle"
-QT_MOC_LITERAL(7, 55, 9), // "plotStyle"
-QT_MOC_LITERAL(8, 65, 5), // "label"
-QT_MOC_LITERAL(9, 71, 7), // "isoView"
-QT_MOC_LITERAL(10, 79, 5) // "clear"
+QT_MOC_LITERAL(3, 17, 13), // "PlotDataModel"
+QT_MOC_LITERAL(4, 31, 5), // "model"
+QT_MOC_LITERAL(5, 37, 15), // "QVector<double>"
+QT_MOC_LITERAL(6, 53, 5), // "xData"
+QT_MOC_LITERAL(7, 59, 5), // "yData"
+QT_MOC_LITERAL(8, 65, 9), // "PlotStyle"
+QT_MOC_LITERAL(9, 75, 9), // "plotStyle"
+QT_MOC_LITERAL(10, 85, 5), // "label"
+QT_MOC_LITERAL(11, 91, 7), // "isoView"
+QT_MOC_LITERAL(12, 99, 5) // "clear"
 
     },
-    "PlotWidget\0plot\0\0QVector<double>\0xData\0"
-    "yData\0PlotStyle\0plotStyle\0label\0isoView\0"
-    "clear"
+    "PlotWidget\0plot\0\0PlotDataModel\0model\0"
+    "QVector<double>\0xData\0yData\0PlotStyle\0"
+    "plotStyle\0label\0isoView\0clear"
 };
 #undef QT_MOC_LITERAL
 
@@ -57,7 +59,7 @@ static const uint qt_meta_data_PlotWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -65,15 +67,17 @@ static const uint qt_meta_data_PlotWidget[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    5,   34,    2, 0x0a /* Public */,
-       1,    4,   45,    2, 0x2a /* Public | MethodCloned */,
-       1,    3,   54,    2, 0x2a /* Public | MethodCloned */,
-      10,    0,   61,    2, 0x0a /* Public */,
+       1,    1,   39,    2, 0x0a /* Public */,
+       1,    5,   42,    2, 0x0a /* Public */,
+       1,    4,   53,    2, 0x2a /* Public | MethodCloned */,
+       1,    3,   62,    2, 0x2a /* Public | MethodCloned */,
+      12,    0,   69,    2, 0x0a /* Public */,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 3, 0x80000000 | 3, 0x80000000 | 6, QMetaType::QString, QMetaType::Bool,    4,    5,    7,    8,    9,
-    QMetaType::Void, 0x80000000 | 3, 0x80000000 | 3, 0x80000000 | 6, QMetaType::QString,    4,    5,    7,    8,
-    QMetaType::Void, 0x80000000 | 3, 0x80000000 | 3, 0x80000000 | 6,    4,    5,    7,
+    QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void, 0x80000000 | 5, 0x80000000 | 5, 0x80000000 | 8, QMetaType::QString, QMetaType::Bool,    6,    7,    9,   10,   11,
+    QMetaType::Void, 0x80000000 | 5, 0x80000000 | 5, 0x80000000 | 8, QMetaType::QString,    6,    7,    9,   10,
+    QMetaType::Void, 0x80000000 | 5, 0x80000000 | 5, 0x80000000 | 8,    6,    7,    9,
     QMetaType::Void,
 
        0        // eod
@@ -85,23 +89,16 @@ void PlotWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         PlotWidget *_t = static_cast<PlotWidget *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->plot((*reinterpret_cast< QVector<double>(*)>(_a[1])),(*reinterpret_cast< QVector<double>(*)>(_a[2])),(*reinterpret_cast< PlotStyle(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4])),(*reinterpret_cast< bool(*)>(_a[5]))); break;
-        case 1: _t->plot((*reinterpret_cast< QVector<double>(*)>(_a[1])),(*reinterpret_cast< QVector<double>(*)>(_a[2])),(*reinterpret_cast< PlotStyle(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
-        case 2: _t->plot((*reinterpret_cast< QVector<double>(*)>(_a[1])),(*reinterpret_cast< QVector<double>(*)>(_a[2])),(*reinterpret_cast< PlotStyle(*)>(_a[3]))); break;
-        case 3: _t->clear(); break;
+        case 0: _t->plot((*reinterpret_cast< PlotDataModel(*)>(_a[1]))); break;
+        case 1: _t->plot((*reinterpret_cast< QVector<double>(*)>(_a[1])),(*reinterpret_cast< QVector<double>(*)>(_a[2])),(*reinterpret_cast< PlotStyle(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4])),(*reinterpret_cast< bool(*)>(_a[5]))); break;
+        case 2: _t->plot((*reinterpret_cast< QVector<double>(*)>(_a[1])),(*reinterpret_cast< QVector<double>(*)>(_a[2])),(*reinterpret_cast< PlotStyle(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
+        case 3: _t->plot((*reinterpret_cast< QVector<double>(*)>(_a[1])),(*reinterpret_cast< QVector<double>(*)>(_a[2])),(*reinterpret_cast< PlotStyle(*)>(_a[3]))); break;
+        case 4: _t->clear(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 0:
-            switch (*reinterpret_cast<int*>(_a[1])) {
-            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-            case 1:
-            case 0:
-                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QVector<double> >(); break;
-            }
-            break;
         case 1:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
@@ -111,6 +108,14 @@ void PlotWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             }
             break;
         case 2:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 1:
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QVector<double> >(); break;
+            }
+            break;
+        case 3:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 1:
@@ -147,13 +152,13 @@ int PlotWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }

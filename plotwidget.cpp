@@ -3,6 +3,7 @@
 #include <QPainter>
 #include <cmath>
 #include "misc.h"
+#include "plotDataModel.h"
 #include <iostream>
 
 #define BACK_COLOR QColor(255, 255, 255)			// white
@@ -19,6 +20,11 @@ PlotWidget::PlotWidget(QWidget *parent, AxisStyle xStyle, AxisStyle yStyle) : QW
         this->xStyle = xStyle;
         this->yStyle = yStyle;
 	isoView=false;
+}
+
+
+void PlotWidget::plot(PlotDataModel model) {
+    this->plot(model.getXData(), model.getYData(), model.getPlotStyle(), model.getPlotLabel(), model.getIsoView());
 }
 
 

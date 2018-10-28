@@ -63,9 +63,9 @@ int main(int argc, char *argv[]) {
         fLagrange[i] = lagrange->polynomial(xValues2[i]);
     }
     
-    noisePlot->plot(xValues, fNoise, PlotWidget::DOT, QString("Input Data - Noise"));
-    noisePlot->plot(xValues2, fSplines, PlotWidget::LINE, QString("Spline Interpolation"));
-    noisePlot->plot(xValues2, fLagrange, PlotWidget::LINE, QString("Lagrange Interpolation"));
+    noisePlot->plot(xValues, fNoise, DOT, QString("Input Data - Noise"));
+    noisePlot->plot(xValues2, fSplines, LINE, QString("Spline Interpolation"));
+    noisePlot->plot(xValues2, fLagrange, LINE, QString("Lagrange Interpolation"));
     
     QComboBox *comboBox = new QComboBox();
     comboBox->addItem("item 1");
