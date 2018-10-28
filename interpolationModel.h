@@ -15,7 +15,7 @@
 
 class InterpolationModel {
 public:
-    InterpolationModel(QString name);
+    InterpolationModel(QString name, int intSteps, PlotDataModel* initialData);
     
     QString getName();
     

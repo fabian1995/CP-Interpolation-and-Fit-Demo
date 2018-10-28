@@ -50,11 +50,11 @@ int main(int argc, char *argv[]) {
     QComboBox* combo = new QComboBox();
     layout->addWidget(combo, 0, 0);
     
-    InterpolationModel* ipm1 = new InterpolationModel("Noise Model");
-    ipm1->plotModels.append(&noiseModel);
+    InterpolationModel* ipm1 = new InterpolationModel("Noise Model", 10, &noiseModel);
+    //ipm1->plotModels.append(&noiseModel);
     
-    InterpolationModel* ipm2 = new InterpolationModel("Polynomial Model");
-    ipm2->plotModels.append(&polModel);
+    InterpolationModel* ipm2 = new InterpolationModel("Polynomial Model", 10, &polModel);
+    //ipm2->plotModels.append(&polModel);
     
     PlotWrapper* wrapper = new PlotWrapper(plotArea, combo);
     wrapper->addDataModel(ipm1);

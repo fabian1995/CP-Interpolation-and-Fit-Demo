@@ -19,14 +19,14 @@
 
 class SplineInterpolation {
 public:
-    SplineInterpolation(QVector<double>* x, QVector<double>* input, double lDeriv, double rDeriv);
+    SplineInterpolation(QVector<double> x, QVector<double> input, double lDeriv, double rDeriv);
     
     double splineInterpolate(double xValue);
     
 private:
     QVector<double>* fss;
-    QVector<double>* input;
-    QVector<double>* x;
+    QVector<double> input;
+    QVector<double> x;
     QVector<double>* coeffA;
     QVector<double>* coeffB;
     QVector<double>* coeffC;
