@@ -7,11 +7,13 @@
 
 #include <QApplication>
 #include <iostream>
+#include <QComboBox>
+#include <QGridLayout>
 
 #include "plotwidget.h"
 #include "splineInterpolation.h"
 #include "utils.h"
-#include "langrangeInterpolation.h"
+#include "lagrangeInterpolation.h"
 
 using namespace std;
 
@@ -23,7 +25,14 @@ int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
 
-    PlotWidget* noisePlot = new PlotWidget(0, PlotWidget::LINEAR, PlotWidget::LINEAR);
+    QWidget* window = new QWidget();
+    
+    QGridLayout* layout = new QGridLayout();
+    window->setLayout(layout);
+    window->setMinimumSize(500, 500);
+    
+    PlotWidget* noisePlot = new PlotWidget(nullptr, PlotWidget::LINEAR, PlotWidget::LINEAR);
+    layout->addWidget(noisePlot, 1,0);
     
     double T_min = 0;
     double T_max = 10;
@@ -40,7 +49,7 @@ int main(int argc, char *argv[]) {
     cout << "Checking LBBS:     " << testLBBinarySearch() << endl;
     
     SplineInterpolation* spline = new SplineInterpolation(&xValues,&fNoise,0,0);
-    LagrInterpolate* lagrange = new LagrInterpolate(&xValues, &fNoise);
+    LagrInterpolate* lagrange = new LagrInterpolate(xValues, fNoise);
     
     T_min -= 0.25;
     T_max += 0.25;
@@ -57,6 +66,15 @@ int main(int argc, char *argv[]) {
     noisePlot->plot(xValues, fNoise, PlotWidget::DOT, QString("Input Data - Noise"));
     noisePlot->plot(xValues2, fSplines, PlotWidget::LINE, QString("Spline Interpolation"));
     noisePlot->plot(xValues2, fLagrange, PlotWidget::LINE, QString("Lagrange Interpolation"));
+    
+    QComboBox *comboBox = new QComboBox();
+    comboBox->addItem("item 1");
+    comboBox->addItem("item 2");
+    layout->addWidget(comboBox, 0, 0);
+    //comboBox->addItem(tr("item 3"));
+    
+    window->show();
+    window->update();
 
     return app.exec();
 }
