@@ -38,7 +38,7 @@ private:
 
     //double scaleX, scaleY;
     bool isoView;
-	
+    bool isInitialized;
 };
 
 #endif // PLOTWIDGET_H
