@@ -10,20 +10,56 @@
 #include <QComboBox>
 #include <QGridLayout>
 
-#include "plotwidget.h"
+#include "plotDataModel.h"
 #include "splineInterpolation.h"
 #include "utils.h"
 #include "lagrangeInterpolation.h"
+#include "plotWrapper.h"
 
 using namespace std;
 
-QVector<double> fNoise {
+QVector<double> xNoise {
     -1.2, 10.4, 3.2, 0.8, 2.2, 2.2, 3.1, 0.9, 2.0, 5.0, -4.4
 };
+QVector<double> fNoise {
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+};
+
+PlotDataModel noiseModel = PlotDataModel(xNoise, fNoise, DOT, QString("Noise"), false);
 
 int main(int argc, char *argv[]) {
-
+    
     QApplication app(argc, argv);
+
+    QWidget* window = new QWidget();
+    
+    QGridLayout* layout = new QGridLayout();
+    window->setLayout(layout);
+    window->setMinimumSize(500, 500);
+    
+    PlotWidget* plotArea = new PlotWidget(nullptr, PlotWidget::LINEAR, PlotWidget::LINEAR);
+    //plotArea->plot(noiseModel);
+    plotArea->show();
+    plotArea->update();
+    layout->addWidget(plotArea, 1, 0);
+    //plotArea->addDataModel(noiseModel);
+    
+    PlotWrapper* wrapper = new PlotWrapper(plotArea);
+    wrapper->addDataModel(&noiseModel);
+    wrapper->plot();
+    
+    QComboBox *comboBox = new QComboBox();
+    comboBox->addItem("item 1");
+    comboBox->addItem("item 2");
+    layout->addWidget(comboBox, 0, 0);
+    
+    window->show();
+    window->update();
+
+    return app.exec();
+}
+
+    /*QApplication app(argc, argv);
 
     QWidget* window = new QWidget();
     
@@ -73,8 +109,11 @@ int main(int argc, char *argv[]) {
     layout->addWidget(comboBox, 0, 0);
     //comboBox->addItem(tr("item 3"));
     
+    noisePlot->clear();
+    noisePlot->plot(noiseModel);
+    
     window->show();
     window->update();
 
     return app.exec();
-}
+}*/
