@@ -10,6 +10,7 @@
 #include <QComboBox>
 #include <QGridLayout>
 #include <qt5/QtCore/qobject.h>
+#include <cmath>
 
 #include "plotDataModel.h"
 #include "splineInterpolation.h"
@@ -34,6 +35,15 @@ inline double polynom(double x) {
 
 PlotDataModel polModel = PlotDataModel(&polynom, 0, 10, 11, DOT, QString("Polynom"), false);
 
+inline double task6funciton(double x) {
+    return std::sin(x) / (1+x*x);
+}
+
+PlotDataModel t6h2 = PlotDataModel(&polynom, -6, 6, 7, DOT, QString("f(x)"), false);
+PlotDataModel t6h1 = PlotDataModel(&polynom, -6, 6, 13, DOT, QString("f(x)"), false);
+PlotDataModel t6h05 = PlotDataModel(&polynom, -6, 6, 25, DOT, QString("f(x)"), false);
+PlotDataModel t6h02 = PlotDataModel(&polynom, -6, 6, 61, DOT, QString("f(x)"), false);
+
 int main(int argc, char *argv[]) {
     
     QApplication app(argc, argv);
@@ -50,16 +60,13 @@ int main(int argc, char *argv[]) {
     QComboBox* combo = new QComboBox();
     layout->addWidget(combo, 0, 0);
     
-    InterpolationModel* ipm1 = new InterpolationModel("Noise Model", 10, &noiseModel);
-    //ipm1->plotModels.append(&noiseModel);
-    
-    InterpolationModel* ipm2 = new InterpolationModel("Polynomial Model", 10, &polModel);
-    //ipm2->plotModels.append(&polModel);
-    
     PlotWrapper* wrapper = new PlotWrapper(plotArea, combo);
-    wrapper->addDataModel(ipm1);
-    wrapper->addDataModel(ipm2);
-    //wrapper->addDataModel(&polModel);
+    wrapper->addDataModel(new InterpolationModel("Noise Model", 10, &noiseModel));
+    wrapper->addDataModel(new InterpolationModel("Polynomial Model", 10, &polModel));
+    wrapper->addDataModel(new InterpolationModel("Task 6 - h = 2", 20, &t6h2));
+    wrapper->addDataModel(new InterpolationModel("Task 6 - h = 1", 20, &t6h1));
+    wrapper->addDataModel(new InterpolationModel("Task 6 - h = 0.5", 20, &t6h05));
+    wrapper->addDataModel(new InterpolationModel("Task 6 - h = 0.2", 20, &t6h02));
     
     QObject::connect(combo, SIGNAL(currentIndexChanged(QString)), wrapper, SLOT(plot(QString)));
     
