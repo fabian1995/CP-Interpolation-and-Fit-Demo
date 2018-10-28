@@ -20,11 +20,16 @@ void PlotWrapper::plot(QString name) {
     for (int i = 0; i < dataCollections.size(); i++) {
         if (name == dataCollections[i]->getName()) {
             functionPlot->clear();
+            errorPlot->clear();
             for (int j = 0; j < dataCollections[i]->plotModels.size(); j++) {
                 functionPlot->plot(*(dataCollections[i]->plotModels[j]));
             }
-            for (int j = 0; j < dataCollections[i]->errorModels.size(); j++) {
-                errorPlot->plot(*(dataCollections[i]->errorModels[j]));
+            if (dataCollections[i]->errorModels.size() == 0)
+                errorPlot->hide();
+            else {
+                for (int j = 0; j < dataCollections[i]->errorModels.size(); j++) {
+                    errorPlot->plot(*(dataCollections[i]->errorModels[j]));
+                }
             }
             return;
         }
