@@ -9,6 +9,7 @@
 #include <iostream>
 #include <QComboBox>
 #include <QGridLayout>
+#include <qt5/QtCore/qobject.h>
 
 #include "plotDataModel.h"
 #include "splineInterpolation.h"
@@ -18,14 +19,20 @@
 
 using namespace std;
 
-QVector<double> xNoise {
+QVector<double> fNoise {
     -1.2, 10.4, 3.2, 0.8, 2.2, 2.2, 3.1, 0.9, 2.0, 5.0, -4.4
 };
-QVector<double> fNoise {
+QVector<double> xNoise {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 };
 
 PlotDataModel noiseModel = PlotDataModel(xNoise, fNoise, DOT, QString("Noise"), false);
+
+inline double polynom(double x) {
+    return x*x*x-2*x*x+3*x-10;
+}
+
+PlotDataModel polModel = PlotDataModel(&polynom, 0, 10, 11, DOT, QString("Polynom"), false);
 
 int main(int argc, char *argv[]) {
     
@@ -38,82 +45,19 @@ int main(int argc, char *argv[]) {
     window->setMinimumSize(500, 500);
     
     PlotWidget* plotArea = new PlotWidget(nullptr, PlotWidget::LINEAR, PlotWidget::LINEAR);
-    //plotArea->plot(noiseModel);
-    plotArea->show();
-    plotArea->update();
     layout->addWidget(plotArea, 1, 0);
-    //plotArea->addDataModel(noiseModel);
     
-    PlotWrapper* wrapper = new PlotWrapper(plotArea);
+    QComboBox* combo = new QComboBox();
+    layout->addWidget(combo, 0, 0);
+    
+    PlotWrapper* wrapper = new PlotWrapper(plotArea, combo);
     wrapper->addDataModel(&noiseModel);
-    wrapper->plot();
+    wrapper->addDataModel(&polModel);
     
-    QComboBox *comboBox = new QComboBox();
-    comboBox->addItem("item 1");
-    comboBox->addItem("item 2");
-    layout->addWidget(comboBox, 0, 0);
+    QObject::connect(combo, SIGNAL(currentIndexChanged(QString)), wrapper, SLOT(plot(QString)));
     
     window->show();
     window->update();
 
     return app.exec();
 }
-
-    /*QApplication app(argc, argv);
-
-    QWidget* window = new QWidget();
-    
-    QGridLayout* layout = new QGridLayout();
-    window->setLayout(layout);
-    window->setMinimumSize(500, 500);
-    
-    PlotWidget* noisePlot = new PlotWidget(nullptr, PlotWidget::LINEAR, PlotWidget::LINEAR);
-    layout->addWidget(noisePlot, 1,0);
-    
-    double T_min = 0;
-    double T_max = 10;
-    int steps = 11;
-    int moreSteps = 30;
-    
-
-    QVector<double> xValues(steps);
-    for(int i=0; i<steps; i++) {
-        xValues[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps-1);
-    }
-    
-    cout << "Checking trisolve: " << testTrisolve() << endl;
-    cout << "Checking LBBS:     " << testLBBinarySearch() << endl;
-    
-    SplineInterpolation* spline = new SplineInterpolation(&xValues,&fNoise,0,0);
-    LagrInterpolate* lagrange = new LagrInterpolate(xValues, fNoise);
-    
-    T_min -= 0.25;
-    T_max += 0.25;
-    
-    QVector<double> xValues2(steps*moreSteps);
-    QVector<double> fSplines(steps*moreSteps);
-    QVector<double> fLagrange(steps*moreSteps);
-    for(int i = 0; i < steps*moreSteps; i++) {
-        xValues2[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps*moreSteps-1);
-        fSplines[i] = spline->splineInterpolate(xValues2[i]);
-        fLagrange[i] = lagrange->polynomial(xValues2[i]);
-    }
-    
-    noisePlot->plot(xValues, fNoise, DOT, QString("Input Data - Noise"));
-    noisePlot->plot(xValues2, fSplines, LINE, QString("Spline Interpolation"));
-    noisePlot->plot(xValues2, fLagrange, LINE, QString("Lagrange Interpolation"));
-    
-    QComboBox *comboBox = new QComboBox();
-    comboBox->addItem("item 1");
-    comboBox->addItem("item 2");
-    layout->addWidget(comboBox, 0, 0);
-    //comboBox->addItem(tr("item 3"));
-    
-    noisePlot->clear();
-    noisePlot->plot(noiseModel);
-    
-    window->show();
-    window->update();
-
-    return app.exec();
-}*/

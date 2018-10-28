@@ -8,22 +8,27 @@
 #ifndef PLOTWRAPPER_H
 #define PLOTWRAPPER_H
 
+#include <QComboBox>
+
 #include "plotDataModel.h"
 #include "plotwidget.h"
 
 
-class PlotWrapper {
+class PlotWrapper : public QObject {
+    Q_OBJECT
 public:
-    PlotWrapper(PlotWidget* plotWidget);
+    PlotWrapper(PlotWidget* plotWidget, QComboBox* selector);
     
     void addDataModel(PlotDataModel* model);
     
-    void plot();
-    
     void clear();
+
+public slots:
+    void plot(QString name);
     
 private:
     PlotWidget* plotWidget;
+    QComboBox* selector;
     QVector<PlotDataModel*> dataModels;
 };
 
