@@ -6,6 +6,7 @@
 #include <iostream>
 
 #define BACK_COLOR QColor(255, 255, 255)			// white
+#define AXIS_COLOR QColor(25, 25, 25)
 #define GRID_COLOR QColor(191, 191, 191)			// light gray
 
 #define BORDER	80									// border in pixels
@@ -102,11 +103,13 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
 		if(tic==0)
 		{
 			pen.setStyle(Qt::SolidLine);
+                        pen.setColor(AXIS_COLOR);
 			p.setPen(pen);
 		}
 		else
 		{
 			pen.setStyle(Qt::DashLine);
+                        pen.setColor(GRID_COLOR);
 			p.setPen(pen);
 		}
 		
@@ -125,11 +128,13 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
 		if(tic==0)
 		{
 			pen.setStyle(Qt::SolidLine);
+                        pen.setColor(AXIS_COLOR);
 			p.setPen(pen);
 		}
 		else
 		{
 			pen.setStyle(Qt::DashLine);
+                        pen.setColor(GRID_COLOR);
 			p.setPen(pen);
 		}
 		
