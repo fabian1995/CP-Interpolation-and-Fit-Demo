@@ -12,6 +12,7 @@
 
 #include "plotDataModel.h"
 #include "plotwidget.h"
+#include "interpolationModel.h"
 
 
 class PlotWrapper : public QObject {
@@ -19,7 +20,7 @@ class PlotWrapper : public QObject {
 public:
     PlotWrapper(PlotWidget* plotWidget, QComboBox* selector);
     
-    void addDataModel(PlotDataModel* model);
+    void addDataModel(InterpolationModel* model);
     
     void clear();
 
@@ -29,7 +30,7 @@ public slots:
 private:
     PlotWidget* plotWidget;
     QComboBox* selector;
-    QVector<PlotDataModel*> dataModels;
+    QVector<InterpolationModel*> dataCollections;
 };
 
 #endif /* PLOTWRAPPER_H */

@@ -8,23 +8,27 @@ PlotWrapper::PlotWrapper(PlotWidget* plotWidget, QComboBox* selector) {
     this->selector = selector;
 }
 
-void PlotWrapper::addDataModel(PlotDataModel* model) {
-    dataModels.append(model);
-    selector->addItem(model->getPlotLabel());
-    if(dataModels.length()==1)
-        this->plot(model->getPlotLabel());
+void PlotWrapper::addDataModel(InterpolationModel* model) {
+    dataCollections.append(model);
+    selector->addItem(model->getName());
+    if(dataCollections.length()==1)
+        this->plot(model->getName());
 }
 
 void PlotWrapper::plot(QString name) {
-    for (int i = 0; i < dataModels.size(); i++) {
-        if (name == dataModels[i]->getPlotLabel()) {
+    for (int i = 0; i < dataCollections.size(); i++) {
+        if (name == dataCollections[i]->getName()) {
             plotWidget->clear();
-            plotWidget->plot(*(dataModels[i]));
+            for (int j = 0; j < dataCollections[i]->plotModels.size(); j++) {
+                plotWidget->plot(*(dataCollections[i]->plotModels[j]));
+            }
+            return;
+            //lotWidget->plot(*(dataModels[i]));
         }
     }
 }
     
 void PlotWrapper::clear() {
-    dataModels.clear();
+    dataCollections.clear();
     plotWidget->clear();
 }
