@@ -3,8 +3,9 @@
 #include "plotwidget.h"
 #include "plotDataModel.h"
 
-PlotWrapper::PlotWrapper(PlotWidget* plotWidget, QComboBox* selector) {
-    this->plotWidget = plotWidget;
+PlotWrapper::PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector) {
+    this->functionPlot = functionPlot;
+    this->errorPlot = errorPlot;
     this->selector = selector;
 }
 
@@ -18,17 +19,20 @@ void PlotWrapper::addDataModel(InterpolationModel* model) {
 void PlotWrapper::plot(QString name) {
     for (int i = 0; i < dataCollections.size(); i++) {
         if (name == dataCollections[i]->getName()) {
-            plotWidget->clear();
+            functionPlot->clear();
             for (int j = 0; j < dataCollections[i]->plotModels.size(); j++) {
-                plotWidget->plot(*(dataCollections[i]->plotModels[j]));
+                functionPlot->plot(*(dataCollections[i]->plotModels[j]));
+            }
+            for (int j = 0; j < dataCollections[i]->errorModels.size(); j++) {
+                errorPlot->plot(*(dataCollections[i]->errorModels[j]));
             }
             return;
-            //lotWidget->plot(*(dataModels[i]));
         }
     }
 }
     
 void PlotWrapper::clear() {
     dataCollections.clear();
-    plotWidget->clear();
+    functionPlot->clear();
+    errorPlot->clear();
 }

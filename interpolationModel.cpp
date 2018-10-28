@@ -39,8 +39,8 @@ InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel
     this->plotModels.append(new PlotDataModel(xValues, yValuesLagr, LINE, QString("Lagrange"), false));
     
     if (exactFunc != nullptr) {
-        this->plotModels.append(new PlotDataModel(xValues, errValuesSpline, LINE, QString("Error of Spline"), false));
-        this->plotModels.append(new PlotDataModel(xValues, errValuesLagr, LINE, QString("Error of Lagrange"), false));
+        this->errorModels.append(new PlotDataModel(xValues, errValuesSpline, LINE, QString("Error of Spline"), false));
+        this->errorModels.append(new PlotDataModel(xValues, errValuesLagr, LINE, QString("Error of Lagrange"), false));
     }
 }
 

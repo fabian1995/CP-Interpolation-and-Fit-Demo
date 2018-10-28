@@ -18,7 +18,7 @@
 class PlotWrapper : public QObject {
     Q_OBJECT
 public:
-    PlotWrapper(PlotWidget* plotWidget, QComboBox* selector);
+    PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector);
     
     void addDataModel(InterpolationModel* model);
     
@@ -28,7 +28,8 @@ public slots:
     void plot(QString name);
     
 private:
-    PlotWidget* plotWidget;
+    PlotWidget* functionPlot;
+    PlotWidget* errorPlot;
     QComboBox* selector;
     QVector<InterpolationModel*> dataCollections;
 };

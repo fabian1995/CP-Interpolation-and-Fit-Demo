@@ -20,6 +20,7 @@ public:
     QString getName();
     
     QVector<PlotDataModel*> plotModels;
+    QVector<PlotDataModel*> errorModels;
     
 private:
     QString name;

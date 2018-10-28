@@ -52,15 +52,18 @@ int main(int argc, char *argv[]) {
     
     QGridLayout* layout = new QGridLayout();
     window->setLayout(layout);
-    window->setMinimumSize(500, 500);
+    window->setMinimumSize(600, 500);
     
-    PlotWidget* plotArea = new PlotWidget(nullptr, PlotWidget::LINEAR, PlotWidget::LINEAR);
-    layout->addWidget(plotArea, 1, 0);
+    PlotWidget* functionPlot = new PlotWidget(nullptr, PlotWidget::LINEAR, PlotWidget::LINEAR);
+    layout->addWidget(functionPlot, 1, 0);
+    
+    PlotWidget* errorPlot = new PlotWidget(nullptr, PlotWidget::LINEAR, PlotWidget::LINEAR);
+    layout->addWidget(errorPlot, 1, 1);
     
     QComboBox* combo = new QComboBox();
     layout->addWidget(combo, 0, 0);
     
-    PlotWrapper* wrapper = new PlotWrapper(plotArea, combo);
+    PlotWrapper* wrapper = new PlotWrapper(functionPlot, errorPlot, combo);
     wrapper->addDataModel(new InterpolationModel("Noise Model", 10, &noiseModel));
     wrapper->addDataModel(new InterpolationModel("Polynomial Model", 10, &polModel));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 2", 20, &t6h2));
