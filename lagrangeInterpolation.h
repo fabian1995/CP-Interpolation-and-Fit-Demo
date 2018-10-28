@@ -13,15 +13,15 @@
 
 class LagrInterpolate {
 public:
-    LagrInterpolate(QVector<double>* xValues, QVector<double>* fValues);
+    LagrInterpolate(QVector<double> xValues, QVector<double> fValues);
     
     double polynomial(double x);
     
 private:
-    QVector<double>* xValues;
-    QVector<double>* fValues;
+    QVector<double> xValues;
+    QVector<double> fValues;
     
-    QVector<double>* denominators;
+    QVector<double> denominators;
     
     double LagrPol(double x, int index);
 };
