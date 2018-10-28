@@ -14,14 +14,17 @@ enum PlotStyle {DOT=0, LINE=1};
 
 class PlotDataModel {
 public:
+    typedef double (*BasisFunction)(double x);
+    
     PlotDataModel(QVector<double> xData, QVector<double> yData, PlotStyle plotStyle, QString plotLabel, bool isoView);
-    PlotDataModel(double (*func)(double), double T_min, double T_max, int steps, PlotStyle plotStyle, QString plotLabel, bool isoView);
+    PlotDataModel(BasisFunction func, double T_min, double T_max, int steps, PlotStyle plotStyle, QString plotLabel, bool isoView);
     
     QVector<double> getXData() {return this->xData;}
     QVector<double> getYData() {return this->yData;}
     PlotStyle getPlotStyle() {return this->plotStyle;}
     QString getPlotLabel() {return this->plotLabel;}
     bool getIsoView() {return this->isoView;}
+    BasisFunction getBasisFunction();
     
 private:
     QVector<double> xData;
@@ -29,6 +32,7 @@ private:
     PlotStyle plotStyle;
     QString plotLabel;
     bool isoView;
+    double (*func)(double x);
 };
 
 #endif /* PLOTDATAMODEL_H */

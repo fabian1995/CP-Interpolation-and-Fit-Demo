@@ -1,4 +1,5 @@
 #include <qt5/QtCore/qvector.h>
+#include <cmath>
 
 #include "interpolationModel.h"
 #include "splineInterpolation.h"
@@ -15,18 +16,32 @@ InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel
     SplineInterpolation splineInt(initialData->getXData(), initialData->getYData(), 0, 0);
     LagrInterpolate lagrInt(initialData->getXData(), initialData->getYData());
     
+    PlotDataModel::BasisFunction exactFunc = initialData->getBasisFunction();
+    
     QVector<double> xValues(steps);
     QVector<double> yValuesSpline(steps);
     QVector<double> yValuesLagr(steps);
+    QVector<double> errValuesSpline(steps);
+    QVector<double> errValuesLagr(steps);
     for (int i = 0; i < steps; i++) {
         xValues[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps-1);
         yValuesSpline[i] = splineInt.splineInterpolate(xValues[i]);
         yValuesLagr[i] = lagrInt.polynomial(xValues[i]);
         
+        if (exactFunc != nullptr) {
+            double exactValue = exactFunc(xValues[i]);
+            errValuesSpline[i] = std::abs((exactValue - yValuesSpline[i]) / exactValue);
+            errValuesLagr[i] = std::abs((exactValue - yValuesLagr[i]) / exactValue);
+        }
     }
     
     this->plotModels.append(new PlotDataModel(xValues, yValuesSpline, LINE, QString("Spline"), false));
     this->plotModels.append(new PlotDataModel(xValues, yValuesLagr, LINE, QString("Lagrange"), false));
+    
+    if (exactFunc != nullptr) {
+        this->plotModels.append(new PlotDataModel(xValues, errValuesSpline, LINE, QString("Error of Spline"), false));
+        this->plotModels.append(new PlotDataModel(xValues, errValuesLagr, LINE, QString("Error of Lagrange"), false));
+    }
 }
 
 QString InterpolationModel::getName() {
