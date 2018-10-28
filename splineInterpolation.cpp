@@ -18,9 +18,6 @@ SplineInterpolation::SplineInterpolation(QVector<double> x, QVector<double> inpu
         this->h->append(x[i]-x[i-1]);
     }
     
-    cout << "vector h: ";
-    printQVector(*h);
-    
     this->calculateSplineCoefficients();
 }
 
@@ -38,17 +35,9 @@ void SplineInterpolation::calculateSplineCoefficients() {
         diag[i] = 2 * (h->at(i-1) + h->at(i));
     }
     
-    cout << "h size: " << h->size() << ", b size: " << diag.size() << ", system size: " << this->size << endl;
-    
     //this->triSolve(diag, f);
     this->fss = new QVector<double>(this->size);
     triSolve(*fss, *h, diag, *h, f);
-    
-    cout << "vector f: ";
-    printQVector(f);
-    
-    cout << "vector fss: ";
-    printQVector(*fss);
     
     this->coeffA = new QVector<double>();
     this->coeffB = new QVector<double>();
@@ -59,13 +48,6 @@ void SplineInterpolation::calculateSplineCoefficients() {
         this->coeffB->append(fss->at(i)/2);
         this->coeffC->append((input.at(i+1)-input.at(i))/h->at(i) - h->at(i)/6 * (fss->at(i+1)+2*fss->at(i)));
     }
-    
-    cout << "vector a: ";
-    printQVector(*coeffA);
-    cout << "vector b: ";
-    printQVector(*coeffB);
-    cout << "vector c: ";
-    printQVector(*coeffC);
 }
 
 double SplineInterpolation::splineInterpolate(double xValue) {
