@@ -59,9 +59,11 @@ int main(int argc, char *argv[]) {
     window->setMinimumSize(600, 500);
     
     PlotWidget* functionPlot = new PlotWidget(nullptr, PlotWidget::LINEAR, PlotWidget::LINEAR);
+    functionPlot->setPlotTitle("Function Plots");
     layout->addWidget(functionPlot, 1, 0);
     
     PlotWidget* errorPlot = new PlotWidget(nullptr, PlotWidget::LINEAR, PlotWidget::LINEAR);
+    errorPlot->setPlotTitle("Relative Errors");
     layout->addWidget(errorPlot, 1, 1);
     
     QComboBox* combo = new QComboBox();

@@ -14,6 +14,7 @@ public:
 
     explicit PlotWidget(QWidget *parent = 0, AxisStyle xStyle = AxisStyle::LINEAR, AxisStyle yStyle = AxisStyle::LINEAR);
         
+    void setPlotTitle(QString plotTitle);
 	
 signals:
 	
@@ -33,6 +34,8 @@ private:
     QVector<QString> labels;
 
     double minX, maxX, minY, maxY;
+    
+    QString plotTitle;
 
     AxisStyle xStyle, yStyle;
 

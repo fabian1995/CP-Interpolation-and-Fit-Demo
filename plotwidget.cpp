@@ -23,6 +23,10 @@ PlotWidget::PlotWidget(QWidget *parent, AxisStyle xStyle, AxisStyle yStyle) : QW
     isInitialized = false;
 }
 
+void PlotWidget::setPlotTitle(QString plotTitle) {
+    this->plotTitle = plotTitle;
+}
+
 
 void PlotWidget::plot(PlotDataModel model) {
     this->plot(model.getXData(), model.getYData(), model.getPlotStyle(), model.getPlotLabel(), model.getIsoView());
@@ -105,6 +109,20 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
 
     // background
     p.fillRect(this->rect(), BACK_COLOR);
+    
+    QFont stdFont = p.font();
+    QFont headerFont = p.font();
+    headerFont.setPointSize ( 22 );
+    
+    // Title
+    if (this->plotTitle != nullptr) {
+        //pen.setColor(QColor(0, 0, 0));
+        p.setFont(headerFont);
+        int x = width() / 2 - this->plotTitle.length() * 7;
+        p.drawText(QPoint(x, 32), this->plotTitle);
+    }
+    
+    p.setFont(stdFont);
 
     // y-grid
     pen.setColor(GRID_COLOR);
@@ -184,8 +202,10 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
         }
 
         // print legend label
+        const int legendY = 60;
+        
         if(!labels[i].isEmpty())
-            p.drawText(50+i*legendStep, 20, labels[i]);
+            p.drawText(50+i*legendStep, legendY, labels[i]);
 
         switch(plotStyles[i])
         {
@@ -197,7 +217,7 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
                 p.drawPoints(QPolygon(points));
 
                 if(!labels[i].isEmpty())	// legend
-                    p.drawPoint(20+i*legendStep, 20);
+                    p.drawPoint(20+i*legendStep, legendY);
                 break;
             }
             case LINE:
@@ -208,7 +228,7 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
                 p.drawPolyline(QPolygon(points));
 
                 if(!labels[i].isEmpty())	// legend
-                    p.drawLine(20+i*legendStep, 20, 40+i*legendStep, 20);
+                    p.drawLine(20+i*legendStep, legendY, 40+i*legendStep, legendY);
             }
         }
     }
