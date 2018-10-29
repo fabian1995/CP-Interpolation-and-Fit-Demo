@@ -1,5 +1,6 @@
 #include <qt5/QtCore/qvector.h>
 #include <cmath>
+#include <QImageReader>
 
 #include "interpolationModel.h"
 #include "splineInterpolation.h"
@@ -7,6 +8,10 @@
 
 double firstDerivative(PlotDataModel::BasisFunction f, double x, double h) {
     return (f(x+h)-f(x-h)) / (2*h);
+}
+
+InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel* initialData, QString imagePath) : InterpolationModel(name, intSteps, initialData) {
+    this->imagepath = imagePath;
 }
 
 InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel* initialData) {
@@ -57,4 +62,8 @@ InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel
 
 QString InterpolationModel::getName() {
     return this->name;
+}
+
+QString InterpolationModel::getEqImagePath() {
+    return this->imagepath;
 }

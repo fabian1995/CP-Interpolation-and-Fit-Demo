@@ -1,12 +1,18 @@
+#include <qt5/QtWidgets/qboxlayout.h>
+#include <qt5/QtWidgets/qlabel.h>
+#include <qt5/QtGui/qpixmap.h>
+
 #include "plotWrapper.h"
 
 #include "plotwidget.h"
 #include "plotDataModel.h"
 
-PlotWrapper::PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector) {
+PlotWrapper::PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector, QWidget* eqSpace, QLabel* eqLabel) {
     this->functionPlot = functionPlot;
     this->errorPlot = errorPlot;
     this->selector = selector;
+    this->eqSpace = eqSpace;
+    this->eqLabel = eqLabel;
     this->currentIndex = -1;
 }
 
@@ -25,12 +31,20 @@ void PlotWrapper::plot(QString name) {
             for (int j = 0; j < dataCollections[i]->plotModels.size(); j++) {
                 functionPlot->plot(*(dataCollections[i]->plotModels[j]));
             }
-            if (dataCollections[i]->errorModels.size() == 0)
+            if (dataCollections[i]->errorModels.size() == 0) {
                 errorPlot->hide();
+            }
             else {
                 for (int j = 0; j < dataCollections[i]->errorModels.size(); j++) {
                     errorPlot->plot(*(dataCollections[i]->errorModels[j]));
                 }
+            }
+            if (dataCollections[i]->getEqImagePath().isNull()) {
+                eqSpace->hide();
+            }
+            else {
+                eqSpace->show();
+                eqLabel->setPixmap(QPixmap(dataCollections[i]->getEqImagePath()));
             }
             currentIndex = i;
             return;

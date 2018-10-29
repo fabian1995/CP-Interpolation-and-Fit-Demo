@@ -9,6 +9,7 @@
 #define PLOTWRAPPER_H
 
 #include <QComboBox>
+#include <qt5/QtWidgets/qlabel.h>
 
 #include "plotDataModel.h"
 #include "plotwidget.h"
@@ -18,7 +19,7 @@
 class PlotWrapper : public QObject {
     Q_OBJECT
 public:
-    PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector);
+    PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector, QWidget* eqSpace, QLabel* eqLabel);
     
     void addDataModel(InterpolationModel* model);
     
@@ -32,6 +33,8 @@ public slots:
 private:
     PlotWidget* functionPlot;
     PlotWidget* errorPlot;
+    QWidget* eqSpace;
+    QLabel* eqLabel;
     QComboBox* selector;
     QVector<InterpolationModel*> dataCollections;
     int currentIndex;
