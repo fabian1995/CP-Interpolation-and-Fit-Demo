@@ -68,9 +68,9 @@ int main(int argc, char *argv[]) {
     layout->addWidget(combo, 0, 0);
     
     PlotWrapper* wrapper = new PlotWrapper(functionPlot, errorPlot, combo);
-    wrapper->addDataModel(new InterpolationModel("Noise Model", 10, &noiseModel));
-    wrapper->addDataModel(new InterpolationModel("Polynomial Model", 10, &polModel));
-    wrapper->addDataModel(new InterpolationModel("Task 6 - h = 2", 20, &t6h2));
+    wrapper->addDataModel(new InterpolationModel("Noise Model", 30, &noiseModel));
+    wrapper->addDataModel(new InterpolationModel("Polynomial Model", 30, &polModel));
+    wrapper->addDataModel(new InterpolationModel("Task 6 - h = 2", 30, &t6h2));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 1", 20, &t6h1));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 0.5", 20, &t6h05));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 0.2", 20, &t6h02));
