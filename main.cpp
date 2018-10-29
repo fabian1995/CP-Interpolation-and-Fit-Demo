@@ -9,6 +9,9 @@
 #include <iostream>
 #include <QComboBox>
 #include <QGridLayout>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QPushButton>
 #include <qt5/QtCore/qobject.h>
 #include <cmath>
 
@@ -17,6 +20,7 @@
 #include "utils.h"
 #include "lagrangeInterpolation.h"
 #include "plotWrapper.h"
+#include "interpolationFileHandler.h"
 
 using namespace std;
 
@@ -72,6 +76,23 @@ int main(int argc, char *argv[]) {
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 0.2", 20, &t6h02));
     
     QObject::connect(combo, SIGNAL(currentIndexChanged(QString)), wrapper, SLOT(plot(QString)));
+    
+    QWidget* exportBar = new QWidget();
+    exportBar->setMaximumHeight(40);
+    QHBoxLayout* exportLayout = new QHBoxLayout();
+    exportBar->setLayout(exportLayout);
+    
+    QLabel* exportLabel = new QLabel("Export data to CSV file");
+    exportLayout->addWidget(exportLabel);
+    
+    QPushButton* exportButton = new QPushButton("Choose file");
+    exportLayout->addWidget(exportButton);
+    
+    layout->addWidget(exportBar, 2, 0);
+    
+    InterpolationFileHandler* fileHandler = new InterpolationFileHandler(wrapper);
+    
+    QObject::connect(exportButton, SIGNAL(pressed()), fileHandler, SLOT(saveCurrentFunctions()));
     
     window->show();
     window->update();

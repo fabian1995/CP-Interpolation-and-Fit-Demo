@@ -23,6 +23,8 @@ public:
     void addDataModel(InterpolationModel* model);
     
     void clear();
+    
+    InterpolationModel* getCurrentDataModel();
 
 public slots:
     void plot(QString name);
@@ -32,6 +34,7 @@ private:
     PlotWidget* errorPlot;
     QComboBox* selector;
     QVector<InterpolationModel*> dataCollections;
+    int currentIndex;
 };
 
 #endif /* PLOTWRAPPER_H */
