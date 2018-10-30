@@ -17,6 +17,7 @@ public:
     Fit(QVector<double> x, QVector<double> f, FitFunction func, QVector<double> params);
     
     double getSquareError();
+    QVector<double> linearRegression();
     
 private:
     QVector<double> xValues;

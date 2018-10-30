@@ -47,7 +47,7 @@ PlotDataModel noiseModel = PlotDataModel(xNoise, fNoise, DOT, QString("Noise"), 
 PlotDataModel noiseModel2 = PlotDataModel(xNoise2, fNoise2, DOT, QString("Noise"), false);
 
 QVector<double> risingLinear {
-    2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+    2.3, 2.9, 4.2, 5.1, 5.4, 7.3, 8, 8.8, 10, 11.3, 11.9
 };
 
 PlotDataModel linearModel = PlotDataModel(xNoise, risingLinear, DOT, QString("Input Data"), false);
@@ -68,7 +68,7 @@ PlotDataModel t6h05 = PlotDataModel(&polynom, -6, 6, 25, DOT, QString("f(x)"), f
 PlotDataModel t6h02 = PlotDataModel(&polynom, -6, 6, 61, DOT, QString("f(x)"), false);
 
 double linearFunction(double x, QVector<double>params) {
-    return params[0]*x+params[1];
+    return params[1]*x+params[0];
 }
 
 int main(int argc, char *argv[]) {

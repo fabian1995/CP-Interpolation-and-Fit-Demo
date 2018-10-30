@@ -1,3 +1,5 @@
+#include <qt5/QtCore/qvector.h>
+
 #include "fitModel.h"
 #include "plotCollectionModel.h"
 
@@ -12,9 +14,10 @@ FitModel::FitModel(QString name, int intSteps, PlotDataModel* initialData, Fit::
     
     QVector<double> xValues(steps);
     QVector<double> yValFunc(steps);
+    QVector<double> params2 = fit->linearRegression();
     for (int i = 0; i < steps; i++) {
         xValues[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps-1);
-        yValFunc[i] = func(xValues[i], params);
+        yValFunc[i] = func(xValues[i], params2);
     }
     
     this->plotModels.append(new PlotDataModel(xValues, yValFunc, LINE, QString("Fit function"), false));

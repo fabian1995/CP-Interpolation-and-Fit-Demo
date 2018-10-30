@@ -18,3 +18,27 @@ double Fit::getSquareError() {
     }
     return result;
 }
+
+QVector<double> Fit::linearRegression() {
+    double avgX = 0, avgY = 0;
+    
+    for (int i = 0; i < xValues.size(); i++) {
+        avgX += xValues[i];
+        avgY += fValues[i];
+    }
+    avgX /= xValues.size();
+    avgY /= xValues.size();
+    
+    QVector<double> result(2, 0);
+    double nom = 0, denom = 0;
+    
+    for (int i = 0; i < xValues.size(); i++) {
+        nom += (xValues[i]-avgX) * (fValues[i]-avgY);
+        denom += (xValues[i]-avgX) * (xValues[i]-avgX);
+    }
+    
+    result[1] = nom / denom;
+    result[0] = avgY - result[1] * avgX;
+    
+    return result;
+}
