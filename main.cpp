@@ -31,7 +31,15 @@ QVector<double> xNoise {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 };
 
+QVector<double> fNoise2 {
+    2.2, 3.1, -1.2, 2.2, 3.1, 0.9, 2.0, 5.0, -4.4, -4.4
+};
+QVector<double> xNoise2 {
+    1.5, 2.5, 4, 4.5, 5, 5.2, 7.4, 8.1, 9.1, 10
+};
+
 PlotDataModel noiseModel = PlotDataModel(xNoise, fNoise, DOT, QString("Noise"), false);
+PlotDataModel noiseModel2 = PlotDataModel(xNoise2, fNoise2, DOT, QString("Noise"), false);
 
 inline double polynom(double x) {
     return x*x*x-2*x*x+3*x-10;
@@ -80,7 +88,8 @@ int main(int argc, char *argv[]) {
     eqLayout->addWidget(eqLabel);
     
     PlotWrapper* wrapper = new PlotWrapper(functionPlot, errorPlot, combo, eqSpace, eqLabel);
-    wrapper->addDataModel(new InterpolationModel("Noise Model", 30, &noiseModel));
+    wrapper->addDataModel(new InterpolationModel("Noise Model - x equally spaced", 30, &noiseModel));
+    wrapper->addDataModel(new InterpolationModel("Noise Model - x unequally spaced", 30, &noiseModel2));
     wrapper->addDataModel(new InterpolationModel("Polynomial Model", 30, &polModel, QString("img/eq_pol_nw.png")));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 2", 30, &t6h2, QString("img/eq_t6_nw.png")));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 1", 20, &t6h1, QString("img/eq_t6_nw.png")));
