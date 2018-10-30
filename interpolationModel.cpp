@@ -59,11 +59,3 @@ InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel
         this->errorModels.append(new PlotDataModel(xValues, errValuesLagr, LINE, QString("Error of Lagrange"), false));
     }
 }
-
-QString InterpolationModel::getName() {
-    return this->name;
-}
-
-QString InterpolationModel::getEqImagePath() {
-    return this->imagepath;
-}

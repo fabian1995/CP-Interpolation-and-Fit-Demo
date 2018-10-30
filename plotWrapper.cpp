@@ -15,7 +15,7 @@ PlotWrapper::PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QCombo
     this->currentIndex = -1;
 }
 
-void PlotWrapper::addDataModel(InterpolationModel* model) {
+void PlotWrapper::addDataModel(PlotCollectionModel* model) {
     dataCollections.append(model);
     selector->addItem(model->getName());
     if(dataCollections.length()==1)
@@ -51,7 +51,7 @@ void PlotWrapper::plot(QString name) {
     }
 }
 
-InterpolationModel* PlotWrapper::getCurrentDataModel() {
+PlotCollectionModel* PlotWrapper::getCurrentDataModel() {
     if (currentIndex >= 0 && currentIndex < dataCollections.size())
         return dataCollections[currentIndex];
     return nullptr;

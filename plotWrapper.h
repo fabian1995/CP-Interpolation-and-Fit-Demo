@@ -13,7 +13,7 @@
 
 #include "plotDataModel.h"
 #include "plotwidget.h"
-#include "interpolationModel.h"
+#include "plotCollectionModel.h"
 
 
 class PlotWrapper : public QObject {
@@ -21,11 +21,11 @@ class PlotWrapper : public QObject {
 public:
     PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector, QWidget* eqSpace, QLabel* eqLabel);
     
-    void addDataModel(InterpolationModel* model);
+    void addDataModel(PlotCollectionModel* model);
     
     void clear();
     
-    InterpolationModel* getCurrentDataModel();
+    PlotCollectionModel* getCurrentDataModel();
 
 public slots:
     void plot(QString name);
@@ -36,7 +36,7 @@ private:
     QWidget* eqSpace;
     QLabel* eqLabel;
     QComboBox* selector;
-    QVector<InterpolationModel*> dataCollections;
+    QVector<PlotCollectionModel*> dataCollections;
     int currentIndex;
 };
 

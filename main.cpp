@@ -14,6 +14,7 @@
 #include <QPushButton>
 #include <QObject>
 #include <cmath>
+#include <qt5/QtCore/qvector.h>
 
 #include "plotDataModel.h"
 #include "splineInterpolation.h"
@@ -21,6 +22,9 @@
 #include "lagrangeInterpolation.h"
 #include "plotWrapper.h"
 #include "interpolationFileHandler.h"
+#include "fit.h"
+#include "plotCollectionModel.h"
+#include "interpolationModel.h"
 
 using namespace std;
 
@@ -41,6 +45,12 @@ QVector<double> xNoise2 {
 PlotDataModel noiseModel = PlotDataModel(xNoise, fNoise, DOT, QString("Noise"), false);
 PlotDataModel noiseModel2 = PlotDataModel(xNoise2, fNoise2, DOT, QString("Noise"), false);
 
+QVector<double> risingLinear {
+    2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+};
+
+PlotDataModel linearModel = PlotDataModel(xNoise, risingLinear, DOT, QString("Input Data"), false);
+
 inline double polynom(double x) {
     return x*x*x-2*x*x+3*x-10;
 }
@@ -56,7 +66,16 @@ PlotDataModel t6h1 = PlotDataModel(&polynom, -6, 6, 13, DOT, QString("f(x)"), fa
 PlotDataModel t6h05 = PlotDataModel(&polynom, -6, 6, 25, DOT, QString("f(x)"), false);
 PlotDataModel t6h02 = PlotDataModel(&polynom, -6, 6, 61, DOT, QString("f(x)"), false);
 
+double linearFunction(double x, QVector<double>params) {
+    return params[0]*x+params[1];
+}
+
 int main(int argc, char *argv[]) {
+    
+    QVector<double> params {1,2};
+    
+    Fit* fit = new Fit(xNoise, risingLinear, &linearFunction, params);
+    std::cout << "Square error: " << fit->getSquareError() << std::endl;
     
     QApplication app(argc, argv);
 

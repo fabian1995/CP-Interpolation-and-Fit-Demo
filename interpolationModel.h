@@ -8,25 +8,16 @@
 #ifndef INTERPOLATIONMODEL_H
 #define INTERPOLATIONMODEL_H
 
-#include <QVector>
+//#include <QVector>
 
 #include "plotDataModel.h"
+#include "plotCollectionModel.h"
 
 
-class InterpolationModel {
+class InterpolationModel : public PlotCollectionModel {
 public:
     InterpolationModel(QString name, int intSteps, PlotDataModel* initialData);
     InterpolationModel(QString name, int intSteps, PlotDataModel* initialData, QString imagePath);
-    
-    QString getName();
-    QString getEqImagePath();
-    
-    QVector<PlotDataModel*> plotModels;
-    QVector<PlotDataModel*> errorModels;
-    
-private:
-    QString name;
-    QString imagepath;
 };
 
 #endif /* INTERPOLATIONMODEL_H */

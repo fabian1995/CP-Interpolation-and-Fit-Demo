@@ -5,7 +5,7 @@
 #include <cstdlib>
 
 #include "interpolationFileHandler.h"
-#include "interpolationModel.h"
+#include "plotCollectionModel.h"
 #include "plotWrapper.h"
 
 InterpolationFileHandler::InterpolationFileHandler(PlotWrapper* plotWrapper) {
@@ -14,7 +14,7 @@ InterpolationFileHandler::InterpolationFileHandler(PlotWrapper* plotWrapper) {
 
 
 void InterpolationFileHandler::saveCurrentFunctions() {
-    InterpolationModel* model = this->plotWrapper->getCurrentDataModel();
+    PlotCollectionModel* model = this->plotWrapper->getCurrentDataModel();
     
     QString fileName = QFileDialog::getSaveFileName(nullptr,
         tr("Save current functions"), model->getName() + ".csv",
