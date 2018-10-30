@@ -8,7 +8,7 @@
 #ifndef INTERPOLATIONMODEL_H
 #define INTERPOLATIONMODEL_H
 
-#include <qt5/QtCore/qvector.h>
+#include <QVector>
 
 #include "plotDataModel.h"
 

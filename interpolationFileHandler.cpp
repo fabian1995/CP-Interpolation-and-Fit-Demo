@@ -4,7 +4,6 @@
 #include <fstream>
 #include <cstdlib>
 
-
 #include "interpolationFileHandler.h"
 #include "interpolationModel.h"
 #include "plotWrapper.h"

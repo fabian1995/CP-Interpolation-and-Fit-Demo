@@ -1,9 +1,10 @@
-#include "misc.h"
-#include <math.h>
 #include <QVector>
 #include <QString>
 #include <QDebug>
 #include <iostream>
+#include <math.h>
+
+#include "misc.h"
 
 
 // prototype

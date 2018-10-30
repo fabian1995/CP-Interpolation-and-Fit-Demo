@@ -8,7 +8,7 @@
 #ifndef PLOTDATAMODEL_H
 #define PLOTDATAMODEL_H
 
-#include <qt5/QtCore/qvector.h>
+#include <QVector>
 
 enum PlotStyle {DOT=0, LINE=1};
 

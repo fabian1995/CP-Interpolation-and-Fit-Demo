@@ -1,6 +1,6 @@
-#include <qt5/QtCore/qvector.h>
-#include <cmath>
+#include <QVector>
 #include <QImageReader>
+#include <cmath>
 
 #include "interpolationModel.h"
 #include "splineInterpolation.h"

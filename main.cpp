@@ -12,7 +12,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
-#include <qt5/QtCore/qobject.h>
+#include <QObject>
 #include <cmath>
 
 #include "plotDataModel.h"

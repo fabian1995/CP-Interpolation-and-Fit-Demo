@@ -1,9 +1,8 @@
-#include <qt5/QtWidgets/qboxlayout.h>
-#include <qt5/QtWidgets/qlabel.h>
-#include <qt5/QtGui/qpixmap.h>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QPixmap>
 
 #include "plotWrapper.h"
-
 #include "plotwidget.h"
 #include "plotDataModel.h"
 

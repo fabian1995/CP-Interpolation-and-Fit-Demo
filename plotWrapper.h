@@ -9,7 +9,7 @@
 #define PLOTWRAPPER_H
 
 #include <QComboBox>
-#include <qt5/QtWidgets/qlabel.h>
+#include <QLabel>
 
 #include "plotDataModel.h"
 #include "plotwidget.h"

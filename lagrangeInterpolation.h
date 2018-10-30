@@ -8,7 +8,7 @@
 #ifndef LANGRANGEINTERPOLATION_H
 #define LANGRANGEINTERPOLATION_H
 
-#include <qt5/QtCore/qvector.h>
+#include <QVector>
 
 
 class LagrInterpolate {

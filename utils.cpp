@@ -1,4 +1,4 @@
-#include <qt5/QtCore/qvector.h>
+#include <QVector>
 #include <cmath>
 #include <iostream>
 

@@ -14,7 +14,7 @@
 #ifndef SPLINE_H
 #define SPLINE_H
 
-#include <qt5/QtCore/qvector.h>
+#include <QVector>
 
 
 class SplineInterpolation {

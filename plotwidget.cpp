@@ -1,10 +1,10 @@
-#include "plotwidget.h"
-
 #include <QPainter>
 #include <cmath>
 #include "misc.h"
-#include "plotDataModel.h"
 #include <iostream>
+
+#include "plotwidget.h"
+#include "plotDataModel.h"
 
 #define BACK_COLOR QColor(255, 255, 255)			// white
 #define AXIS_COLOR QColor(25, 25, 25)
