@@ -217,7 +217,7 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
                 p.drawPoints(QPolygon(points));
 
                 if(!labels[i].isEmpty())	// legend
-                    p.drawPoint(20+i*legendStep, legendY);
+                    p.drawPoint(20+i*legendStep, legendY-5);
                 break;
             }
             case LINE:
@@ -228,7 +228,7 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
                 p.drawPolyline(QPolygon(points));
 
                 if(!labels[i].isEmpty())	// legend
-                    p.drawLine(20+i*legendStep, legendY, 40+i*legendStep, legendY);
+                    p.drawLine(20+i*legendStep, legendY-5, 40+i*legendStep, legendY-5);
             }
         }
     }
