@@ -19,7 +19,9 @@
 #include "plotDataModel.h"
 
 class PlotCollectionModel {
-public:    
+public:
+    PlotCollectionModel(QString name, QString eqImage);
+    
     QString getName();
     QString getEqImagePath();
     

@@ -16,7 +16,6 @@
 
 class InterpolationModel : public PlotCollectionModel {
 public:
-    InterpolationModel(QString name, int intSteps, PlotDataModel* initialData);
     InterpolationModel(QString name, int intSteps, PlotDataModel* initialData, QString imagePath);
 };
 

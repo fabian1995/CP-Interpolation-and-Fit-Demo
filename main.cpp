@@ -22,9 +22,10 @@
 #include "lagrangeInterpolation.h"
 #include "plotWrapper.h"
 #include "interpolationFileHandler.h"
-#include "fit.h"
+//#include "fit.h"
 #include "plotCollectionModel.h"
 #include "interpolationModel.h"
+#include "fitModel.h"
 
 using namespace std;
 
@@ -72,11 +73,6 @@ double linearFunction(double x, QVector<double>params) {
 
 int main(int argc, char *argv[]) {
     
-    QVector<double> params {1,2};
-    
-    Fit* fit = new Fit(xNoise, risingLinear, &linearFunction, params);
-    std::cout << "Square error: " << fit->getSquareError() << std::endl;
-    
     QApplication app(argc, argv);
 
     QWidget* window = new QWidget();
@@ -107,8 +103,10 @@ int main(int argc, char *argv[]) {
     eqLayout->addWidget(eqLabel);
     
     PlotWrapper* wrapper = new PlotWrapper(functionPlot, errorPlot, combo, eqSpace, eqLabel);
-    wrapper->addDataModel(new InterpolationModel("Noise Model - x equally spaced", 30, &noiseModel));
-    wrapper->addDataModel(new InterpolationModel("Noise Model - x unequally spaced", 30, &noiseModel2));
+    wrapper->addDataModel(new InterpolationModel("Noise Model - x equally spaced", 30, &noiseModel, QString()));
+    wrapper->addDataModel(new InterpolationModel("Noise Model - x unequally spaced", 30, &noiseModel2, QString()));
+    QVector<double> params {1,2};
+    wrapper->addDataModel(new FitModel("Linear Fit", 30, &linearModel, &linearFunction, params, QString()));
     wrapper->addDataModel(new InterpolationModel("Polynomial Model", 30, &polModel, QString("img/eq_pol_nw.png")));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 2", 30, &t6h2, QString("img/eq_t6_nw.png")));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 1", 20, &t6h1, QString("img/eq_t6_nw.png")));

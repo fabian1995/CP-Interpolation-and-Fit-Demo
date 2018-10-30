@@ -10,12 +10,7 @@ double firstDerivative(PlotDataModel::BasisFunction f, double x, double h) {
     return (f(x+h)-f(x-h)) / (2*h);
 }
 
-InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel* initialData, QString imagePath) : InterpolationModel(name, intSteps, initialData) {
-    this->imagepath = imagePath;
-}
-
-InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel* initialData) {
-    this->name = name;
+InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel* initialData, QString imagePath = QString()) : PlotCollectionModel(name, imagePath) {
     this->plotModels.append(initialData);
     
     const int steps = initialData->getXData().size() * intSteps;
