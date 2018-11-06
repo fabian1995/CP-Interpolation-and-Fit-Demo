@@ -3,10 +3,11 @@
 
 #include "fit.h"
 
-Fit::Fit(QVector<double> x, QVector<double> f, Fit::FitFunction func, QVector<double> params) {
+Fit::Fit(QVector<double> x, QVector<double> f, Fit::FitFunction func, QVector<Fit::FitFunction> gradient, QVector<double> params) {
     this->xValues = x;
     this->fValues = f;
     this->func = func;
+    this->gradient = gradient;
     this->params = params;
 }
 

@@ -3,10 +3,10 @@
 #include "fitModel.h"
 #include "plotCollectionModel.h"
 
-FitModel::FitModel(QString name, int intSteps, PlotDataModel* initialData, Fit::FitFunction func, QVector<double> params, QString imagePath) : PlotCollectionModel(name, imagePath) {
+FitModel::FitModel(QString name, int intSteps, PlotDataModel* initialData, Fit::FitFunction func, QVector<Fit::FitFunction> gradient, QVector<double> params, QString imagePath) : PlotCollectionModel(name, imagePath) {
     this->plotModels.append(initialData);
     
-    Fit* fit = new Fit(initialData->getXData(), initialData->getYData(), func, params);
+    Fit* fit = new Fit(initialData->getXData(), initialData->getYData(), func, gradient, params);
     
     const int steps = initialData->getXData().size() * intSteps;
     const double T_min = initialData->getXData()[0];

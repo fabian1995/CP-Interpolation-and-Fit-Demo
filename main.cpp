@@ -73,6 +73,8 @@ double linearFunction(double x, QVector<double>params) {
 
 int main(int argc, char *argv[]) {
     
+    testLinAlgFunctions();
+    
     QApplication app(argc, argv);
 
     QWidget* window = new QWidget();
@@ -106,7 +108,7 @@ int main(int argc, char *argv[]) {
     wrapper->addDataModel(new InterpolationModel("Noise Model - x equally spaced", 30, &noiseModel, QString()));
     wrapper->addDataModel(new InterpolationModel("Noise Model - x unequally spaced", 30, &noiseModel2, QString()));
     QVector<double> params {1,2};
-    wrapper->addDataModel(new FitModel("Linear Fit", 30, &linearModel, &linearFunction, params, QString()));
+    //wrapper->addDataModel(new FitModel("Linear Fit", 30, &linearModel, &linearFunction, params, QString()));
     wrapper->addDataModel(new InterpolationModel("Polynomial Model", 30, &polModel, QString("img/eq_pol_nw.png")));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 2", 30, &t6h2, QString("img/eq_t6_nw.png")));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 1", 20, &t6h1, QString("img/eq_t6_nw.png")));

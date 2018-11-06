@@ -16,7 +16,7 @@
 
 class FitModel : public PlotCollectionModel {
 public:
-    FitModel(QString name, int intSteps, PlotDataModel* initialData, Fit::FitFunction func, QVector<double> params, QString imagePath);
+    FitModel(QString name, int intSteps, PlotDataModel* initialData, Fit::FitFunction func, QVector<Fit::FitFunction> gradient, QVector<double> params, QString imagePath);
 };
 
 #endif /* FITMODEL_H */

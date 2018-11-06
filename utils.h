@@ -24,5 +24,11 @@ bool testLBBinarySearch();
 
 void printQVector(QVector<double>& vec);
 
+double determinant(QVector<QVector<double>> matrix);
+
+void testLinAlgFunctions();
+
+QVector<double> linSolve(QVector<QVector<double>> mat, QVector<double> f);
+
 #endif /* UTILS_H */
 
