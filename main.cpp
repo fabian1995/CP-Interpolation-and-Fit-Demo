@@ -58,7 +58,7 @@ inline double polynom(double x) {
 
 PlotDataModel polModel = PlotDataModel(&polynom, 0, 10, 11, DOT, QString("Polynom"), false);
 
-inline double task6funciton(double x) {
+inline double task6function(double x) {
     return std::sin(x) / (1+x*x);
 }
 
