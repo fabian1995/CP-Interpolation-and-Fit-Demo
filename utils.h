@@ -22,13 +22,15 @@ int lowerBoundsBinarySearch(double xValue, QVector<double>& x);
 
 bool testLBBinarySearch();
 
-void printQVector(QVector<double>& vec);
+void printQVector(QVector<double> vec);
+
+void printQMatrix(QVector<QVector<double>> mat);
 
 double determinant(QVector<QVector<double>> matrix);
 
 void testLinAlgFunctions();
 
-QVector<double> linSolve(QVector<QVector<double>> mat, QVector<double> f);
+QVector<double> linSolve(QVector<QVector<double>> mat, QVector<double> f, bool invertSign = false);
 
 #endif /* UTILS_H */
 

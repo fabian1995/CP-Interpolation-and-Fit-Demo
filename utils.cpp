@@ -193,8 +193,11 @@ void testLinAlgFunctions() {
     cout << " --- finished determinant test ---" << endl;
 }
 
-QVector<double> linSolve(QVector<QVector<double>> mat, QVector<double> f) {
+QVector<double> linSolve(QVector<QVector<double>> mat, QVector<double> f, bool invertSign) {
     double deta = determinant(mat);
+    if (invertSign)
+        deta *= -1;
+    
     QVector<double> x (f.size());
     
     for (int j = 0; j < f.size(); j++) {

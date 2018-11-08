@@ -46,11 +46,15 @@ QVector<double> xNoise2 {
 PlotDataModel noiseModel = PlotDataModel(xNoise, fNoise, DOT, QString("Noise"), false);
 PlotDataModel noiseModel2 = PlotDataModel(xNoise2, fNoise2, DOT, QString("Noise"), false);
 
-QVector<double> risingLinear {
-    2.3, 2.9, 4.2, 5.1, 5.4, 7.3, 8, 8.8, 10, 11.3, 11.9
+QVector<double> scatteringEnergy {
+    0, 25, 50, 75, 100, 125, 150, 175, 200
 };
 
-PlotDataModel linearModel = PlotDataModel(xNoise, risingLinear, DOT, QString("Input Data"), false);
+QVector<double> scatteringData {
+    10.6, 16, 45, 83, 52, 19.9, 10.8, 8.25, 4.7
+};
+
+PlotDataModel linearModel = PlotDataModel(scatteringEnergy, scatteringData, DOT, QString("Input Data"), false);
 
 inline double polynom(double x) {
     return x*x*x-2*x*x+3*x-10;
@@ -62,18 +66,36 @@ inline double task6function(double x) {
     return std::sin(x) / (1+x*x);
 }
 
-PlotDataModel t6h2 = PlotDataModel(&polynom, -6, 6, 7, DOT, QString("f(x)"), false);
-PlotDataModel t6h1 = PlotDataModel(&polynom, -6, 6, 13, DOT, QString("f(x)"), false);
-PlotDataModel t6h05 = PlotDataModel(&polynom, -6, 6, 25, DOT, QString("f(x)"), false);
-PlotDataModel t6h02 = PlotDataModel(&polynom, -6, 6, 61, DOT, QString("f(x)"), false);
+PlotDataModel t6h2 = PlotDataModel(&task6function, -6, 6, 7, DOT, QString("f(x)"), false);
+PlotDataModel t6h1 = PlotDataModel(&task6function, -6, 6, 13, DOT, QString("f(x)"), false);
+PlotDataModel t6h05 = PlotDataModel(&task6function, -6, 6, 25, DOT, QString("f(x)"), false);
+PlotDataModel t6h02 = PlotDataModel(&task6function, -6, 6, 61, DOT, QString("f(x)"), false);
 
 double linearFunction(double x, QVector<double>params) {
     return params[1]*x+params[0];
 }
 
+double nonLinFunc(double x, QVector<double> params) {
+    return params[0]/(pow(x-params[1],2)+params[2]);
+}
+
+double nonLinFuncD0(double x, QVector<double> params) {
+    return 1/(pow(x-params[1],2)+params[2]);
+}
+
+double nonLinFuncD1(double x, QVector<double> params) {
+    return -2*params[0]*(x-params[1])/pow(pow(x-params[1],2)+params[2],2);
+}
+
+double nonLinFuncD2(double x, QVector<double> params) {
+    return -params[0]/pow(pow(x-params[1],2)+params[2],2);
+}
+
+QVector<Fit::FitFunction> gradient = {&nonLinFuncD0, &nonLinFuncD1, &nonLinFuncD2};
+
 int main(int argc, char *argv[]) {
     
-    testLinAlgFunctions();
+    //testLinAlgFunctions();
     
     QApplication app(argc, argv);
 
@@ -107,8 +129,8 @@ int main(int argc, char *argv[]) {
     PlotWrapper* wrapper = new PlotWrapper(functionPlot, errorPlot, combo, eqSpace, eqLabel);
     wrapper->addDataModel(new InterpolationModel("Noise Model - x equally spaced", 30, &noiseModel, QString()));
     wrapper->addDataModel(new InterpolationModel("Noise Model - x unequally spaced", 30, &noiseModel2, QString()));
-    QVector<double> params {1,2};
-    //wrapper->addDataModel(new FitModel("Linear Fit", 30, &linearModel, &linearFunction, params, QString()));
+    QVector<double> params {5000,75,100};
+    wrapper->addDataModel(new FitModel("Nonlinear Fit", 30, &linearModel, &nonLinFunc, gradient, params, QString()));
     wrapper->addDataModel(new InterpolationModel("Polynomial Model", 30, &polModel, QString("img/eq_pol_nw.png")));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 2", 30, &t6h2, QString("img/eq_t6_nw.png")));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 1", 20, &t6h1, QString("img/eq_t6_nw.png")));
