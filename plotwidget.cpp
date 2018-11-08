@@ -28,30 +28,27 @@ void PlotWidget::setPlotTitle(QString plotTitle) {
 }
 
 
-void PlotWidget::plot(PlotDataModel model) {
-    this->plot(model.getXData(), model.getYData(), model.getPlotStyle(), model.getPlotLabel(), model.getIsoView());
-}
-
-
-void PlotWidget::plot(QVector<double> xData, QVector<double> yData, PlotStyle plotStyle, QString label, bool isoView)
+void PlotWidget::plot(PlotDataModel model)
 {
+    
     // check sizes
-    if(xData.size() != yData.size())
+    if(model.getXData().size() != model.getYData().size())
     {
             return;
     }
-    int n=xData.size();
+    int n=model.getXData().size();
 
     isInitialized = true;
 
     // copy data
-    xDatas.append(xData);
+    /*xDatas.append(xData);
     yDatas.append(yData);
     plotStyles.append(plotStyle);
-    labels.append(label);
+    labels.append(label);*/
+    this->models.append(model);
 
     // check for isoView
-    if(isoView)
+    if(model.getIsoView())
     {
         this->isoView=true;
     }
@@ -59,21 +56,21 @@ void PlotWidget::plot(QVector<double> xData, QVector<double> yData, PlotStyle pl
     // find limits
     for(int i=0; i<n; i++)
     {
-        if(xData[i]<minX)
+        if(model.getXData()[i]<minX)
         {
-            minX=xData[i];
+            minX=model.getXData()[i];
         }
-        if(xData[i]>maxX)
+        if(model.getXData()[i]>maxX)
         {
-            maxX=xData[i];
+            maxX=model.getXData()[i];
         }
-        if(yData[i]<minY)
+        if(model.getYData()[i]<minY)
         {
-            minY=yData[i];
+            minY=model.getYData()[i];
         }
-        if(yData[i]>maxY)
+        if(model.getYData()[i]>maxY)
         {
-            maxY=yData[i];
+            maxY=model.getYData()[i];
         }
     }
 
@@ -88,10 +85,11 @@ void PlotWidget::clear()
     isInitialized = false;
     isoView=false;
 
-    xDatas.clear();
+    /*xDatas.clear();
     yDatas.clear();
     plotStyles.clear();
-    labels.clear();
+    labels.clear();*/
+    models.clear();
 
     update();
 }
@@ -183,10 +181,10 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
 
 
     // data traces
-    int hueStep=360/xDatas.size();
-    int legendStep=width()/xDatas.size();
+    int hueStep=360/models.size();
+    int legendStep=width()/models.size();
 
-    for(int i=0; i<xDatas.size(); i++)
+    for(int i=0; i<models.size(); i++)
     {
         // set color
         QColor color=QColor::fromHsv((240+i*hueStep)%360, 255, 200);
@@ -195,19 +193,19 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
 
         // generate data points
         QVector<QPoint> points;
-        for(int j=0; j<xDatas[i].size(); j++)
+        for(int j=0; j<models[i].getXData().size(); j++)
         {
-            if (!std::isnan(yDatas[i][j]))
-                points.append(real2pixel(xDatas[i][j], yDatas[i][j]));
+            if (!std::isnan(models[i].getYData()[j]))
+                points.append(real2pixel(models[i].getXData()[j], models[i].getYData()[j]));
         }
 
         // print legend label
         const int legendY = 60;
         
-        if(!labels[i].isEmpty())
-            p.drawText(50+i*legendStep, legendY, labels[i]);
+        if(!models[i].getPlotLabel().isEmpty())
+            p.drawText(50+i*legendStep, legendY, models[i].getPlotLabel());
 
-        switch(plotStyles[i])
+        switch(models[i].getPlotStyle())
         {
             case DOT:
             {
@@ -216,7 +214,7 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
                 p.setPen(pen);
                 p.drawPoints(QPolygon(points));
 
-                if(!labels[i].isEmpty())	// legend
+                if(!models[i].getPlotLabel().isEmpty())	// legend
                     p.drawPoint(20+i*legendStep, legendY-5);
                 break;
             }
@@ -227,7 +225,7 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
                 p.setPen(pen);
                 p.drawPolyline(QPolygon(points));
 
-                if(!labels[i].isEmpty())	// legend
+                if(!models[i].getPlotLabel().isEmpty())	// legend
                     p.drawLine(20+i*legendStep, legendY-5, 40+i*legendStep, legendY-5);
             }
         }

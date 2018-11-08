@@ -20,7 +20,7 @@ signals:
 	
 public slots:
     void plot(PlotDataModel model);
-    void plot(QVector<double> xData, QVector<double> yData, PlotStyle plotStyle, QString label=QString(), bool isoView=false);
+    
     void clear();
 	
 private:
@@ -28,10 +28,7 @@ private:
 
     QPoint real2pixel(double x, double y);
 
-    QVector<QVector<double>> xDatas;
-    QVector<QVector<double>> yDatas;
-    QVector<PlotStyle> plotStyles;
-    QVector<QString> labels;
+    QVector<PlotDataModel> models;
 
     double minX, maxX, minY, maxY;
     
