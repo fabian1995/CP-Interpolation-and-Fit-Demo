@@ -54,7 +54,11 @@ QVector<double> scatteringData {
     10.6, 16, 45, 83, 52, 19.9, 10.8, 8.25, 4.7
 };
 
-PlotDataModel linearModel = PlotDataModel(scatteringEnergy, scatteringData, DOT, QString("Input Data"), false);
+QVector<double> scatteringErrors {
+    5, 5, 5, 5, 5, 5, 5, 5, 5
+};
+
+PlotDataModel linearModel = PlotDataModel(scatteringEnergy, scatteringData, scatteringErrors, DOT, QString("Input Data"), false);
 
 inline double polynom(double x) {
     return x*x*x-2*x*x+3*x-10;

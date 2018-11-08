@@ -193,10 +193,19 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
 
         // generate data points
         QVector<QPoint> points;
+        QVector<QLine> errorLines;
         for(int j=0; j<models[i].getXData().size(); j++)
         {
-            if (!std::isnan(models[i].getYData()[j]))
-                points.append(real2pixel(models[i].getXData()[j], models[i].getYData()[j]));
+            if (!std::isnan(models[i].getYData()[j])) {
+                double x = models[i].getXData()[j], y = models[i].getYData()[j];
+                points.append(real2pixel(x, y));
+                if (models[i].getErrors().size() > 0) {
+                    double err = models[i].getErrors()[j];
+                    errorLines.append(QLine(real2pixel(x, y-err), real2pixel(x, y+err)));
+                    errorLines.append(QLine(real2pixel(x-0.25*err, y-err), real2pixel(x+0.25*err, y-err)));
+                    errorLines.append(QLine(real2pixel(x-0.25*err, y+err), real2pixel(x+0.25*err, y+err)));
+                }
+            }
         }
 
         // print legend label
@@ -210,9 +219,14 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
             case DOT:
             {
                 pen.setCapStyle(Qt::RoundCap);
-                pen.setWidth(10);
+                pen.setWidth(8);
                 p.setPen(pen);
                 p.drawPoints(QPolygon(points));
+                
+                pen.setWidth(1);
+                pen.setStyle(Qt::SolidLine);
+                p.setPen(pen);
+                p.drawLines(errorLines);
 
                 if(!models[i].getPlotLabel().isEmpty())	// legend
                     p.drawPoint(20+i*legendStep, legendY-5);

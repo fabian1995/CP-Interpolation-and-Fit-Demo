@@ -16,11 +16,14 @@ class PlotDataModel {
 public:
     typedef double (*BasisFunction)(double x);
     
+    PlotDataModel() {}
     PlotDataModel(QVector<double> xData, QVector<double> yData, PlotStyle plotStyle, QString plotLabel, bool isoView);
+    PlotDataModel(QVector<double> xData, QVector<double> yData, QVector<double> errors, PlotStyle plotStyle, QString plotLabel, bool isoView);
     PlotDataModel(BasisFunction func, double T_min, double T_max, int steps, PlotStyle plotStyle, QString plotLabel, bool isoView);
     
     QVector<double> getXData() {return this->xData;}
     QVector<double> getYData() {return this->yData;}
+    QVector<double> getErrors() {return this->errors;}
     PlotStyle getPlotStyle() {return this->plotStyle;}
     QString getPlotLabel() {return this->plotLabel;}
     bool getIsoView() {return this->isoView;}
@@ -29,10 +32,11 @@ public:
 private:
     QVector<double> xData;
     QVector<double> yData;
+    QVector<double> errors;
     PlotStyle plotStyle;
     QString plotLabel;
     bool isoView;
-    double (*func)(double x);
+    BasisFunction func;
 };
 
 #endif /* PLOTDATAMODEL_H */

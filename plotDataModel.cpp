@@ -1,13 +1,16 @@
 #include "plotDataModel.h"
 
-PlotDataModel::PlotDataModel(QVector<double> xData, QVector<double> yData, PlotStyle plotStyle, QString plotLabel, bool isoView) {
+PlotDataModel::PlotDataModel(QVector<double> xData, QVector<double> yData, QVector<double> errors, PlotStyle plotStyle, QString plotLabel, bool isoView) {
     this->xData = xData;
     this->yData = yData;
+    this->errors = errors;
     this->plotStyle = plotStyle;
     this->plotLabel = plotLabel;
     this->isoView = isoView;
     this->func = nullptr;
 }
+
+PlotDataModel::PlotDataModel(QVector<double> xData, QVector<double> yData, PlotStyle plotStyle, QString plotLabel, bool isoView) : PlotDataModel(xData, yData, QVector<double>(), plotStyle, plotLabel, isoView) {}
 
 PlotDataModel::PlotDataModel(PlotDataModel::BasisFunction func, double T_min, double T_max, int steps, PlotStyle plotStyle, QString plotLabel, bool isoView) {
     this->xData = QVector<double>(steps);
