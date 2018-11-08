@@ -15,13 +15,12 @@ FitModel::FitModel(QString name, int intSteps, PlotDataModel* initialData, Fit::
     QVector<double> xValues(steps);
     QVector<double> yValFunc(steps);
     QVector<double> yValFunc2(steps);
-    QVector<double> params2 = fit->params.last();
     for (int i = 0; i < steps; i++) {
         xValues[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps-1);
         yValFunc[i] = func(xValues[i], params);
-        yValFunc2[i] = func(xValues[i], params2);
+        yValFunc2[i] = func(xValues[i], fit->params.last());
     }
     
     this->plotModels.append(new PlotDataModel(xValues, yValFunc, LINE, QString("Initial guess"), false));
-    this->plotModels.append(new PlotDataModel(xValues, yValFunc2, LINE, QString("Last iteration"), false));
+    this->plotModels.append(new PlotDataModel(xValues, yValFunc2, LINE, QString("Fit function"), false));
 }

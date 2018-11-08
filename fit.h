@@ -35,7 +35,7 @@ private:
     
     void calculateFit();
     QVector<double> applyFunctions(QVector<ParamFunction>, QVector<double> params);
-    QVector<QVector<double>> jacobiMatrix(QVector<Fit::ParamFunction> f, QVector<double> params, double h);
+    QVector<QVector<double>> jacobiMatrix(QVector<Fit::ParamFunction> f, QVector<double> params);
 };
 
 #endif /* FIT_H */

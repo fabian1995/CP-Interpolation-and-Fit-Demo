@@ -33,21 +33,24 @@ Fit::Fit(QVector<double> x, QVector<double> f, Fit::FitFunction func, QVector<Fi
         };
     }
     
-    std::cout << "func: " << paramFunc[0](params.last()) << std::endl;
-    std::cout << "func: " << paramFunc[1](params.last()) << std::endl;
-    std::cout << "func: " << paramFunc[2](params.last()) << std::endl;
+    double lastSquareError = getSquareError();
     
-    QVector<QVector<double>> mat = jacobiMatrix(paramFunc, params.last(), 0.0001);
-    printQMatrix(mat);
-    
-    QVector<double> delta_x = linSolve(mat, applyFunctions(paramFunc, params.last()), true);
-    
-    std::cout << "delta_x: " << std::endl;
-    printQVector(delta_x);
-    
-    params.append(QVector<double>(params.last()));
-    for (int i = 0; i < delta_x.size(); i++) {
-        params.last()[i] += delta_x[i];
+    for (int i = 0; i < 100; i++) {
+        QVector<QVector<double>> mat = jacobiMatrix(paramFunc, params.last());
+        //printQMatrix(mat);
+
+        QVector<double> delta_x = linSolve(mat, applyFunctions(paramFunc, params.last()), true);
+
+        params.append(QVector<double>(params.last()));
+        for (int j = 0; j < delta_x.size(); j++) {
+            params.last()[j] += delta_x[j];
+        }
+        std::cout << "Square error for step " << (i+1) << ": " << getSquareError() << std::endl;
+        
+        if (almostEqual(lastSquareError, this->getSquareError()))
+            break;
+        else
+            lastSquareError = this->getSquareError();
     }
 }
 
@@ -68,10 +71,11 @@ QVector<double> Fit::applyFunctions(QVector<Fit::ParamFunction> f, QVector<doubl
     return values;
 }
 
-QVector<QVector<double>> Fit::jacobiMatrix(QVector<Fit::ParamFunction> f, QVector<double> params, double h) {
+QVector<QVector<double>> Fit::jacobiMatrix(QVector<Fit::ParamFunction> f, QVector<double> params) {
     QVector<QVector<double>> mat (params.size());
     
     for (int j = 0; j < mat.size(); j++) {
+        double h = params[j] / 1000;
         QVector<double> col (f.size());
         QVector<double> params2 (params);
         params2[j] += h;

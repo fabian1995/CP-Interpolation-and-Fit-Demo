@@ -18,6 +18,8 @@ void triSolve(QVector<double>& result, QVector<double>& a, QVector<double>& b, Q
 
 bool testTrisolve();
 
+inline bool almostEqual(double n1, double n2, double epsilon = 1e-10);
+
 int lowerBoundsBinarySearch(double xValue, QVector<double>& x);
 
 bool testLBBinarySearch();

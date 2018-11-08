@@ -25,7 +25,7 @@ void triSolve(QVector<double>& result, QVector<double>& a, QVector<double>& b, Q
     }
 }
 
-inline bool almostEqual(double n1, double n2, double epsilon = 1e-10) {
+inline bool almostEqual(double n1, double n2, double epsilon) {
     return std::abs(n1-n2) < epsilon;
 }
 

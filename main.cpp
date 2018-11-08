@@ -127,10 +127,12 @@ int main(int argc, char *argv[]) {
     eqLayout->addWidget(eqLabel);
     
     PlotWrapper* wrapper = new PlotWrapper(functionPlot, errorPlot, combo, eqSpace, eqLabel);
+    QVector<double> params {9000,75,100};
+    wrapper->addDataModel(new FitModel("Nonlinear Fit", 30, &linearModel, &nonLinFunc, gradient, params, QString()));
+    
     wrapper->addDataModel(new InterpolationModel("Noise Model - x equally spaced", 30, &noiseModel, QString()));
     wrapper->addDataModel(new InterpolationModel("Noise Model - x unequally spaced", 30, &noiseModel2, QString()));
-    QVector<double> params {5000,75,100};
-    wrapper->addDataModel(new FitModel("Nonlinear Fit", 30, &linearModel, &nonLinFunc, gradient, params, QString()));
+    
     wrapper->addDataModel(new InterpolationModel("Polynomial Model", 30, &polModel, QString("img/eq_pol_nw.png")));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 2", 30, &t6h2, QString("img/eq_t6_nw.png")));
     wrapper->addDataModel(new InterpolationModel("Task 6 - h = 1", 20, &t6h1, QString("img/eq_t6_nw.png")));
