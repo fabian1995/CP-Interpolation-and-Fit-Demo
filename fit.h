@@ -16,9 +16,9 @@
 class Fit {
 public:
     typedef double (*FitFunction)(double x, QVector<double> params);
-    //typedef double (*ParamFunction)(QVector<double> params);
     using ParamFunction = std::function<double(QVector<double>)>;
-    Fit(QVector<double> x, QVector<double> f, FitFunction func, QVector<Fit::FitFunction> gradient, QVector<double> p0);
+    
+    Fit(QVector<double> x, QVector<double> f, QVector<double> errors, FitFunction func, QVector<Fit::FitFunction> gradient, QVector<double> p0);
     
     double getSquareError();
     QVector<double> linearRegression();
@@ -28,7 +28,7 @@ public:
 private:
     QVector<double> xValues;
     QVector<double> fValues;
-    QVector<double> modelValues;
+    QVector<double> errors;
     FitFunction func;
     QVector<Fit::FitFunction> gradient;
     QVector<Fit::ParamFunction> paramFunc;

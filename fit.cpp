@@ -14,7 +14,7 @@ double f2(QVector<double> params) {
     return 1 + 2*params[0]*params[1];
 }
 
-Fit::Fit(QVector<double> x, QVector<double> f, Fit::FitFunction func, QVector<Fit::FitFunction> gradient, QVector<double> p0) {
+Fit::Fit(QVector<double> x, QVector<double> f, QVector<double> errors, Fit::FitFunction func, QVector<Fit::FitFunction> gradient, QVector<double> p0) {
     this->xValues = x;
     this->fValues = f;
     this->func = func;
@@ -22,12 +22,17 @@ Fit::Fit(QVector<double> x, QVector<double> f, Fit::FitFunction func, QVector<Fi
     this->params = QVector<QVector<double>>();
     this->params.append(p0);
     
+    if (errors.size() == xValues.size())
+        this->errors = errors;
+    else
+        this->errors = QVector<double>(xValues.size(), 1);
+    
     this->paramFunc = QVector<ParamFunction>(gradient.size());
     for (int i = 0; i < paramFunc.size(); i++) {
         paramFunc[i] = [=](QVector<double> p) -> double {
             double result = 0;
             for (int j = 0; j < xValues.size(); j++) {
-                result += (fValues[j]-func(xValues[j], p)) * gradient[i](xValues[j], p);
+                result += (fValues[j]-func(xValues[j], p)) * gradient[i](xValues[j], p) / std::pow(errors[j], 2);
             }
             return result;
         };
@@ -57,7 +62,7 @@ Fit::Fit(QVector<double> x, QVector<double> f, Fit::FitFunction func, QVector<Fi
 double Fit::getSquareError() {
     double result = 0;
     for (int i = 0; i < xValues.size(); i++) {
-        double diff = (this->func(xValues[i], params.last())-fValues[i]);
+        double diff = (this->func(xValues[i], params.last())-fValues[i]) / errors[i];
         result += diff * diff;
     }
     return result;

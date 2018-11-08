@@ -55,7 +55,7 @@ QVector<double> scatteringData {
 };
 
 QVector<double> scatteringErrors {
-    5, 5, 5, 5, 5, 5, 5, 5, 5
+    5, 5, 5, 5, 10, 5, 5, 5, 5
 };
 
 PlotDataModel linearModel = PlotDataModel(scatteringEnergy, scatteringData, scatteringErrors, DOT, QString("Input Data"), false);
