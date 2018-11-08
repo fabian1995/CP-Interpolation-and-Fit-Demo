@@ -218,15 +218,15 @@ void PlotWidget::paintEvent(QPaintEvent * /*event*/)
         {
             case DOT:
             {
-                pen.setCapStyle(Qt::RoundCap);
-                pen.setWidth(8);
-                p.setPen(pen);
-                p.drawPoints(QPolygon(points));
-                
                 pen.setWidth(1);
                 pen.setStyle(Qt::SolidLine);
                 p.setPen(pen);
                 p.drawLines(errorLines);
+                
+                pen.setCapStyle(Qt::RoundCap);
+                pen.setWidth(8);
+                p.setPen(pen);
+                p.drawPoints(QPolygon(points));
 
                 if(!models[i].getPlotLabel().isEmpty())	// legend
                     p.drawPoint(20+i*legendStep, legendY-5);
