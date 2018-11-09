@@ -30,6 +30,7 @@ InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel
     LagrInterpolate lagrInt(initialData->getXData(), initialData->getYData());
     
     QVector<double> xValues(steps);
+    QVector<double> yValuesExact(steps);
     QVector<double> yValuesSpline(steps);
     QVector<double> yValuesLagr(steps);
     QVector<double> errValuesSpline(steps);
@@ -38,19 +39,21 @@ InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel
         xValues[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps-1);
         yValuesSpline[i] = splineInt.splineInterpolate(xValues[i]);
         yValuesLagr[i] = lagrInt.polynomial(xValues[i]);
-        
+
         if (exactFunc != nullptr) {
             double exactValue = exactFunc(xValues[i]);
+            yValuesExact[i] = exactValue;
             errValuesSpline[i] = std::abs((exactValue - yValuesSpline[i]) / exactValue);
             errValuesLagr[i] = std::abs((exactValue - yValuesLagr[i]) / exactValue);
         }
     }
     
-    this->plotModels.append(new PlotDataModel(xValues, yValuesSpline, LINE, QString("Spline"), false));
-    this->plotModels.append(new PlotDataModel(xValues, yValuesLagr, LINE, QString("Lagrange"), false));
-    
     if (exactFunc != nullptr) {
+        this->plotModels.append(new PlotDataModel(xValues, yValuesExact, LINE, QString("Exact Function"), false));
         this->errorModels.append(new PlotDataModel(xValues, errValuesSpline, LINE, QString("Error of Spline"), false));
         this->errorModels.append(new PlotDataModel(xValues, errValuesLagr, LINE, QString("Error of Lagrange"), false));
     }
+    this->plotModels.append(new PlotDataModel(xValues, yValuesLagr, LINE, QString("Lagrange"), false));
+    this->plotModels.append(new PlotDataModel(xValues, yValuesSpline, LINE, QString("Spline"), false));
+    
 }
