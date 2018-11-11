@@ -24,7 +24,7 @@
 class PlotWrapper : public QObject {
     Q_OBJECT
 public:
-    PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector, QWidget* eqSpace, QLabel* eqLabel);
+    PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector, QWidget* eqSpace, QLabel* eqLabel, QLabel* eqCaption);
     
     void addDataModel(PlotCollectionModel* model);
     
@@ -45,8 +45,11 @@ private:
     /** Placeholder for the PlotCollection image */
     QWidget* eqSpace;
     
-    /** Label of the PlotCollection image */
+    /** Label for the PlotCollection image pixmap */
     QLabel* eqLabel;
+    
+    /** Caption label for the PlotCollection image */
+    QLabel* eqCaption;
     
     /** Combo box to select the PlotCollection */
     QComboBox* selector;

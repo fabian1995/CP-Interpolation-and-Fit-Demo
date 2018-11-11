@@ -10,15 +10,17 @@
  * @param functionPlot Pointer to PlotWidget for function plots
  * @param errorPlot Pointer to PlotWidget for error plots
  * @param selector Pointer to ComboBox (drop-down menu) for selecting the Plot Collection
- * @param eqSpace Placeholder for Plot Collection image
- * @param eqLabel Label for Plot Collection image
+ * @param eqSpace Placeholder for Plot Collection image and caption
+ * @param eqLabel Label for Plot Collection image pixmap
+ * @param eqCaption Label for the Plot Collection image caption
  */
-PlotWrapper::PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector, QWidget* eqSpace, QLabel* eqLabel) {
+PlotWrapper::PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector, QWidget* eqSpace, QLabel* eqLabel, QLabel* eqCaption) {
     this->functionPlot = functionPlot;
     this->errorPlot = errorPlot;
     this->selector = selector;
     this->eqSpace = eqSpace;
     this->eqLabel = eqLabel;
+    this->eqCaption = eqCaption;
     this->currentIndex = -1;
 }
 
@@ -55,10 +57,13 @@ void PlotWrapper::plot(QString name) {
             }
             if (dataCollections[i]->getEqImagePath().isNull()) {
                 eqSpace->hide();
+                eqCaption->hide();
             }
             else {
                 eqSpace->show();
+                eqCaption->show();
                 eqLabel->setPixmap(QPixmap(dataCollections[i]->getEqImagePath()));
+                eqCaption->setText(dataCollections[i]->getEqImageCaption());
             }
             currentIndex = i;
             return;

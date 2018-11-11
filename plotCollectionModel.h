@@ -20,10 +20,11 @@
 
 class PlotCollectionModel {
 public:
-    PlotCollectionModel(QString name, QString eqImage);
+    PlotCollectionModel(QString name, QString eqImage, QString eqLabel);
     
     QString getName();
     QString getEqImagePath();
+    QString getEqImageCaption();
     
     /** All Plot Models for the default function plot */
     QVector<PlotDataModel*> plotModels;
@@ -33,10 +34,13 @@ public:
     
 protected:
     /** Display name of this Plot Collection */
-    QString name;
+    QString displayName;
     
     /** Path to optional image that can be shown besides the graph */
     QString imagepath;
+    
+    /** Label for the optional plot image */
+    QString imageCaption;
 };
 
 #endif /* PLOTCOLLECTIONMODEL_H */

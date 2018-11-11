@@ -28,7 +28,7 @@ double firstDerivative(PlotDataModel::BasisFunction f, double x, double h) {
  * @param initialData Input Plot Model
  * @param imagePath Path to an image of the equation defining the input data (optional)
  */
-InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel* initialData, QString imagePath = QString()) : PlotCollectionModel(name, imagePath) {
+InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel* initialData, QString imagePath = QString()) : PlotCollectionModel(name, imagePath, QString("Original function: ")) {
     this->plotModels.append(initialData);
     
     const int steps = initialData->getXData().size() * intSteps;

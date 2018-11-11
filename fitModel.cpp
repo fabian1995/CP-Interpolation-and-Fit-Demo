@@ -14,7 +14,7 @@
  * @param params Vector of parameters for the fit model function
  * @param imagePath Path to an image of the equation defining the input data (optional)
  */
-FitModel::FitModel(QString name, int intSteps, PlotDataModel* initialData, Fit::FitFunction func, QVector<Fit::FitFunction> gradient, QVector<double> params, QString imagePath) : PlotCollectionModel(name, imagePath) {
+FitModel::FitModel(QString name, int intSteps, PlotDataModel* initialData, Fit::FitFunction func, QVector<Fit::FitFunction> gradient, QVector<double> params, QString imagePath) : PlotCollectionModel(name, imagePath, QString ("Model function: ")) {
     this->plotModels.append(initialData);
     
     Fit* fit = new Fit(initialData->getXData(), initialData->getYData(), initialData->getErrors(), func, gradient, params);
