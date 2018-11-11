@@ -1,8 +1,19 @@
-#include <qt5/QtCore/qvector.h>
+#include <QVector>
 
 #include "fitModel.h"
 #include "plotCollectionModel.h"
 
+/**
+ * Creates a Plot Collection model containing input data nodes and an
+ * approximated fit function. 
+ * @param name Name of this Plot Collection
+ * @param intSteps Number of steps between the data nodes of the Plot Model
+ * @param initialData Input Plot Model
+ * @param func Fit model function
+ * @param gradient Symbolic partial derivatives of fit model function for each parameter
+ * @param params Vector of parameters for the fit model function
+ * @param imagePath Path to an image of the equation defining the input data (optional)
+ */
 FitModel::FitModel(QString name, int intSteps, PlotDataModel* initialData, Fit::FitFunction func, QVector<Fit::FitFunction> gradient, QVector<double> params, QString imagePath) : PlotCollectionModel(name, imagePath) {
     this->plotModels.append(initialData);
     

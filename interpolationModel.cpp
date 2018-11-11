@@ -6,10 +6,28 @@
 #include "splineInterpolation.h"
 #include "lagrangeInterpolation.h"
 
+/**
+ * Calculates the central difference quotient of function f at a given point.
+ * @param f Input function
+ * @param x Value on the x axis
+ * @param h Small change (delta) for the difference quotient. This number should
+ * be chosen as small as possible but without the risk of cancellation.
+ * @return The derivative of f at point x.
+ */
 double firstDerivative(PlotDataModel::BasisFunction f, double x, double h) {
     return (f(x+h)-f(x-h)) / (2*h);
 }
 
+/**
+ * Creates a Plot Collection Model containing Spline and Lagrange interpolation
+ * of the given Plot Data Model.
+ * @see PlotDataModel
+ * @see PlotCollectionModel
+ * @param name Name of this Plot Collection
+ * @param intSteps Number of steps between the data nodes of the Plot Model
+ * @param initialData Input Plot Model
+ * @param imagePath Path to an image of the equation defining the input data (optional)
+ */
 InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel* initialData, QString imagePath = QString()) : PlotCollectionModel(name, imagePath) {
     this->plotModels.append(initialData);
     

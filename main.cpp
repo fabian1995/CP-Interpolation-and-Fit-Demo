@@ -22,7 +22,6 @@
 #include "lagrangeInterpolation.h"
 #include "plotWrapper.h"
 #include "interpolationFileHandler.h"
-//#include "fit.h"
 #include "plotCollectionModel.h"
 #include "interpolationModel.h"
 #include "fitModel.h"

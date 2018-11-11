@@ -16,6 +16,11 @@
 #include "plotCollectionModel.h"
 
 
+/**
+ * Controller class for selecting the Plot Collection to be displayed.
+ * @see PlotCollectionModel
+ * @see PlotWidget
+ */
 class PlotWrapper : public QObject {
     Q_OBJECT
 public:
@@ -31,12 +36,25 @@ public slots:
     void plot(QString name);
     
 private:
+    /** PlotWidget for function and interpolation plots */
     PlotWidget* functionPlot;
+    
+    /** PlotWidget for error Plots */
     PlotWidget* errorPlot;
+    
+    /** Placeholder for the PlotCollection image */
     QWidget* eqSpace;
+    
+    /** Label of the PlotCollection image */
     QLabel* eqLabel;
+    
+    /** Combo box to select the PlotCollection */
     QComboBox* selector;
+    
+    /** List of available PlotCollections */
     QVector<PlotCollectionModel*> dataCollections;
+    
+    /** Index of currently selected (and displayed) PlotCollection */
     int currentIndex;
 };
 

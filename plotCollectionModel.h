@@ -25,11 +25,17 @@ public:
     QString getName();
     QString getEqImagePath();
     
+    /** All Plot Models for the default function plot */
     QVector<PlotDataModel*> plotModels;
+    
+    /** Plot Models for the additional error plot. */
     QVector<PlotDataModel*> errorModels;
     
 protected:
+    /** Display name of this Plot Collection */
     QString name;
+    
+    /** Path to optional image that can be shown besides the graph */
     QString imagepath;
 };
 

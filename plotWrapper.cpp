@@ -6,6 +6,13 @@
 #include "plotwidget.h"
 #include "plotDataModel.h"
 
+/**
+ * @param functionPlot Pointer to PlotWidget for function plots
+ * @param errorPlot Pointer to PlotWidget for error plots
+ * @param selector Pointer to ComboBox (drop-down menu) for selecting the Plot Collection
+ * @param eqSpace Placeholder for Plot Collection image
+ * @param eqLabel Label for Plot Collection image
+ */
 PlotWrapper::PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QComboBox* selector, QWidget* eqSpace, QLabel* eqLabel) {
     this->functionPlot = functionPlot;
     this->errorPlot = errorPlot;
@@ -15,6 +22,10 @@ PlotWrapper::PlotWrapper(PlotWidget* functionPlot, PlotWidget* errorPlot, QCombo
     this->currentIndex = -1;
 }
 
+/**
+ * Add a Plot Collection to the selection.
+ * @param model Pointer to the new Plot Collection
+ */
 void PlotWrapper::addDataModel(PlotCollectionModel* model) {
     dataCollections.append(model);
     selector->addItem(model->getName());
@@ -22,6 +33,10 @@ void PlotWrapper::addDataModel(PlotCollectionModel* model) {
         this->plot(model->getName());
 }
 
+/**
+ * Set the plot collection to be displayed
+ * @param name Display name of the plot collection
+ */
 void PlotWrapper::plot(QString name) {
     for (int i = 0; i < dataCollections.size(); i++) {
         if (name == dataCollections[i]->getName()) {
@@ -51,12 +66,18 @@ void PlotWrapper::plot(QString name) {
     }
 }
 
+/**
+ * @return A pointer to the currently selected PlotCollection
+ */
 PlotCollectionModel* PlotWrapper::getCurrentDataModel() {
     if (currentIndex >= 0 && currentIndex < dataCollections.size())
         return dataCollections[currentIndex];
     return nullptr;
 }
     
+/**
+ * Remove all Plot Collections and clear PlotWidgets
+ */
 void PlotWrapper::clear() {
     dataCollections.clear();
     functionPlot->clear();
