@@ -4,11 +4,20 @@
 
 #include "utils.h"
 
-void triSolve(QVector<double>& result, QVector<double>& a, QVector<double>& b, QVector<double>& c, QVector<double>& f) {
+/**
+ * Solves a trigonal system of equations using the Thomas Algorithm
+ * @param a Lower diagonal of the matrix
+ * @param b Main diagonal of the matrix
+ * @param c Upper diagonal of the matrix
+ * @param f Right side of the equation
+ * @return Solution to the equation
+ */
+QVector<double> triSolve(QVector<double> a, QVector<double> b, QVector<double> c, QVector<double> f) {
     const int size = b.size();
 
     QVector<double> beta(size);
     QVector<double> rho(size);
+    QVector<double> result(size);
     
     beta[0] = b[0];
     rho[0] = f[0];
@@ -23,12 +32,25 @@ void triSolve(QVector<double>& result, QVector<double>& a, QVector<double>& b, Q
     for(int i = size-2; i >= 0; i--) {
         result[i] = (rho[i] - c[i] * result[i+1]) / beta[i];
     }
+    
+    return result;
 }
 
-inline bool almostEqual(double n1, double n2, double epsilon) {
+/**
+ * Compares two double precision floating point numbers
+ * @param n1 input number
+ * @param n2 input number
+ * @param epsilon tolerance for comparison
+ * @return true, if difference between n1 and n2 is less than epsilon
+ */
+bool almostEqual(double n1, double n2, double epsilon) {
     return std::abs(n1-n2) < epsilon;
 }
 
+/**
+ * Tests the function "triSolve" for a specific case
+ * @return true, if test has been passed
+ */
 bool testTrisolve() {
     QVector<double> a { 1,1,1 };
     QVector<double> b { 1,2,3,4 };
@@ -43,7 +65,7 @@ bool testTrisolve() {
         0.42105263157894
     };
     
-    triSolve(result, a, b, c, f);
+    result = triSolve(a, b, c, f);
     
     for (int i = 0; i < result.size(); i++) {
         if (!almostEqual(result[i], exactResult[i],1e-10))
@@ -53,7 +75,16 @@ bool testTrisolve() {
     return true;
 }
 
-int lowerBoundsBinarySearch(double xValue, QVector<double>& x) {
+/**
+ * Searches for the interval of values that the given parameter xValue lies within.
+ * Returns the lower index of the interval.
+ * @param xValue value that should be in one of the intervals
+ * @param x Vector of index boundaries
+ * @return Index of the left interval boundarx. 0 if xValue is below the lowest
+ * interval. Returns last index if xValue is greater than the highest interval 
+ * border.
+ */
+int lowerBoundsBinarySearch(double xValue, QVector<double> x) {
     int lowerIndex = 0;
     int upperIndex = x.size()-2;
     int midIndex = (upperIndex + lowerIndex) / 2;
@@ -84,6 +115,10 @@ int lowerBoundsBinarySearch(double xValue, QVector<double>& x) {
     return lowerIndex;
 }
 
+/**
+ * Tests the function "lowerBoundsBinarySearch" for specific cases.
+ * @return true, if the test has been passed.
+ */
 bool testLBBinarySearch() {
     QVector<double> xIntervals {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     QVector<double> input    {0, 0.1, 3.2, 4.5, 8.99, 9.19, 9.99, 10};
@@ -98,6 +133,10 @@ bool testLBBinarySearch() {
     return true;
 }
 
+/**
+ * Prints size and contents of a QVector.
+ * @param vec QVector to be printed
+ */
 void printQVector(QVector<double> vec) {
     std::cout << "[size " << vec.size() << "]: ";
     
@@ -107,6 +146,11 @@ void printQVector(QVector<double> vec) {
     std::cout << std::endl;
 }
 
+/**
+ * Prints the contents of a matrix made of QVectors.
+ * @param mat QVector of QVectors representing a matrix where each inner QVector
+ * is one column.
+ */
 void printQMatrix(QVector<QVector<double>> mat) {
     for (int i = 0; i < mat.size(); i++) {
         for (int j = 0; j < mat.size(); j++) {
@@ -116,6 +160,14 @@ void printQMatrix(QVector<QVector<double>> mat) {
     }
 }
 
+/**
+ * Calculates the submatrix of a given matrix
+ * @param mat QVector of QVectors representing a matrix where each inner QVector
+ * is one column.
+ * @param iInd Index of the LINE to be removed.
+ * @param jInd Index of the COLUMN to be removed.
+ * @return Submatrix as QVector of QVectors
+ */
 QVector<QVector<double>> subMatrix(QVector<QVector<double>> mat, int iInd, int jInd) {
     QVector<QVector<double>> sub;
     
@@ -130,6 +182,13 @@ QVector<QVector<double>> subMatrix(QVector<QVector<double>> mat, int iInd, int j
     return sub;
 }
 
+/**
+ * Calculates the determinant of a given matrix
+ * @param mat QVector of QVectors representing a matrix where each inner QVector
+ * is one column.
+ * @return The determinant of the matrix.
+ * @throw "Invalid matrix dimension", e.g. if matrix size is 0.
+ */
 double determinant(QVector<QVector<double>> mat) {
     if (mat.size() == 1) {
         return mat[0][0];
@@ -152,6 +211,11 @@ double determinant(QVector<QVector<double>> mat) {
     throw "Invalid matrix dimension";
 }
 
+/**
+ * Tests the functions "determinant" and "linSolve" for specific cases and
+ * additionally prints the result of the function "subMatrix" for a specific case.
+ * Prints test results to std::out.
+ */
 void testLinAlgFunctions() {
     using namespace std;
     
@@ -193,6 +257,15 @@ void testLinAlgFunctions() {
     cout << " --- finished determinant test ---" << endl;
 }
 
+/**
+ * Solves a quadratic system of linear equations using Cramer's Rule.
+ * @param mat Matrix of the equation, represented as QVector of QVectors.
+ * @param f Right side of the equation.
+ * @param invertSign If true, the sign of every result is inverted. This flag is
+ * set to false by default and is used by the nonlinear fit methods in "fit.cpp"
+ * @see fit.cpp
+ * @return The result vector that solves the given system of equations.
+ */
 QVector<double> linSolve(QVector<QVector<double>> mat, QVector<double> f, bool invertSign) {
     double deta = determinant(mat);
     if (invertSign)

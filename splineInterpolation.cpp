@@ -12,10 +12,10 @@ SplineInterpolation::SplineInterpolation(QVector<double> x, QVector<double> inpu
     this->rDeriv = rDeriv;
     this->size = input.size();
     
-    this->h = new QVector<double>();
+    this->h = QVector<double>();
     
     for (int i = 1; i < size; i++) {
-        this->h->append(x[i]-x[i-1]);
+        this->h.append(x[i]-x[i-1]);
     }
     
     this->calculateSplineCoefficients();
@@ -25,28 +25,27 @@ void SplineInterpolation::calculateSplineCoefficients() {
     QVector<double> f(size);
     QVector<double> diag(size);
     
-    f[0] = 6 * ((input.at(1) - input.at(0)) / h->at(0) - lDeriv);
-    f[size-1] = 6 * (rDeriv - ((input.at(size-1) - input.at(size-2)) / h->at(size-2)));
-    diag[0] = 2*h->at(0);
-    diag[size-1] = 2*h->at(size-2);
+    f[0] = 6 * ((input.at(1) - input.at(0)) / h[0] - lDeriv);
+    f[size-1] = 6 * (rDeriv - ((input.at(size-1) - input.at(size-2)) / h[size-2]));
+    diag[0] = 2*h[0];
+    diag[size-1] = 2*h[size-2];
     
     for (int i = 1; i < size-1; i++) {
-        f[i] = 6 * ((input.at(i+1) - input.at(i)) / h->at(i) - (input.at(i) - input.at(i-1)) / h->at(i-1));
-        diag[i] = 2 * (h->at(i-1) + h->at(i));
+        f[i] = 6 * ((input.at(i+1) - input.at(i)) / h[i] - (input.at(i) - input.at(i-1)) / h[i-1]);
+        diag[i] = 2 * (h[i-1] + h[i]);
     }
     
     //this->triSolve(diag, f);
-    this->fss = new QVector<double>(this->size);
-    triSolve(*fss, *h, diag, *h, f);
+    this->fss = triSolve(h, diag, h, f);
     
-    this->coeffA = new QVector<double>();
-    this->coeffB = new QVector<double>();
-    this->coeffC = new QVector<double>();
+    this->coeffA = QVector<double>();
+    this->coeffB = QVector<double>();
+    this->coeffC = QVector<double>();
     
     for(int i = 0; i < size-1; i++) {
-        this->coeffA->append((fss->at(i+1)-fss->at(i))/(6*h->at(i)));
-        this->coeffB->append(fss->at(i)/2);
-        this->coeffC->append((input.at(i+1)-input.at(i))/h->at(i) - h->at(i)/6 * (fss->at(i+1)+2*fss->at(i)));
+        this->coeffA.append((fss[i+1]-fss[i])/(6*h[i]));
+        this->coeffB.append(fss[i]/2);
+        this->coeffC.append((input[i+1]-input[i])/h[i] - h[i]/6 * (fss[i+1]+2*fss[i]));
     }
 }
 
@@ -55,13 +54,13 @@ double SplineInterpolation::splineInterpolate(double xValue) {
     int index = lowerBoundsBinarySearch(xValue, x);
     
     // Calculate function value
-    double result = input.at(index);
-    double helper = xValue - x.at(index);
-    result += helper * coeffC->at(index);
-    helper *= xValue - x.at(index);
-    result += helper * coeffB->at(index);
-    helper *= xValue - x.at(index);
-    result += helper * coeffA->at(index);
+    double result = input[index];
+    double helper = xValue - x[index];
+    result += helper * coeffC[index];
+    helper *= xValue - x[index];
+    result += helper * coeffB[index];
+    helper *= xValue - x[index];
+    result += helper * coeffA[index];
     
     return result;
 }

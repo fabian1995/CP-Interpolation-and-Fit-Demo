@@ -14,13 +14,13 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-void triSolve(QVector<double>& result, QVector<double>& a, QVector<double>& b, QVector<double>& c, QVector<double>& f);
+QVector<double> triSolve(QVector<double> a, QVector<double> b, QVector<double> c, QVector<double> f);
 
 bool testTrisolve();
 
-inline bool almostEqual(double n1, double n2, double epsilon = 1e-10);
+bool almostEqual(double n1, double n2, double epsilon = 1e-10);
 
-int lowerBoundsBinarySearch(double xValue, QVector<double>& x);
+int lowerBoundsBinarySearch(double xValue, QVector<double> x);
 
 bool testLBBinarySearch();
 

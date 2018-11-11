@@ -24,18 +24,18 @@ public:
     double splineInterpolate(double xValue);
     
 private:
-    QVector<double>* fss;
+    QVector<double> fss;
     QVector<double> input;
     QVector<double> x;
-    QVector<double>* coeffA;
-    QVector<double>* coeffB;
-    QVector<double>* coeffC;
+    QVector<double> coeffA;
+    QVector<double> coeffB;
+    QVector<double> coeffC;
     //QVector<double>* coeffD; coefficient d is equal to input data
     double lDeriv;
     double rDeriv;
     int size;
     
-    QVector<double>* h;
+    QVector<double> h;
     
     void calculateSplineCoefficients();
     
