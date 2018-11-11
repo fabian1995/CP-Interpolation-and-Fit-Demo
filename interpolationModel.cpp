@@ -38,7 +38,7 @@ InterpolationModel::InterpolationModel(QString name, int intSteps, PlotDataModel
     for (int i = 0; i < steps; i++) {
         xValues[i] = T_min + (T_max-T_min) * (double)(i) / (double)(steps-1);
         yValuesSpline[i] = splineInt.splineInterpolate(xValues[i]);
-        yValuesLagr[i] = lagrInt.polynomial(xValues[i]);
+        yValuesLagr[i] = lagrInt.interpolate(xValues[i]);
 
         if (exactFunc != nullptr) {
             double exactValue = exactFunc(xValues[i]);

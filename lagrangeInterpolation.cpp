@@ -7,6 +7,11 @@
 
 #include "lagrangeInterpolation.h"
 
+/**
+ * Calculates the Lagrangian Polynomaials for a given set of data nodes.
+ * @param xValues X values of the data nodes.
+ * @param fValues Y Values of the data nodes.
+ */
 LagrInterpolate::LagrInterpolate(QVector<double> xValues, QVector<double> fValues) {
     this->xValues = xValues;
     this->fValues = fValues;
@@ -24,7 +29,13 @@ LagrInterpolate::LagrInterpolate(QVector<double> xValues, QVector<double> fValue
     }
 }
 
-double LagrInterpolate::polynomial(double x) {
+/**
+ * Calculates the value of the Lagrangian interpolation function for a specific
+ * x value.
+ * @param x Input calue
+ * @return  Corresponding interpolation function value.
+ */
+double LagrInterpolate::interpolate(double x) {
     
     double result = 0;
     
@@ -35,6 +46,12 @@ double LagrInterpolate::polynomial(double x) {
     return result;
 }
 
+/**
+ * The Lagrangian Polynomial L(n) itself.
+ * @param x Input value on x axis
+ * @param index Index of the Lagrangian Polynomial
+ * @return Value of Lagrangian Polynomial with index i at point x.
+ */
 double LagrInterpolate::LagrPol(double x, int index) {
     
     double result = this->denominators[index];
